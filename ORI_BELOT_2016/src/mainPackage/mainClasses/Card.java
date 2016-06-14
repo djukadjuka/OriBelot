@@ -1,6 +1,7 @@
 package mainPackage.mainClasses;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class Card {
 	private int cardValue;
@@ -9,14 +10,20 @@ public class Card {
 	private int heuristicValue;
 	private String cardName;
 	private Image cardImage;
+	private Image rotatedCardImage;
 	
-	public Card(String cardName,int cardValue,int cardSuit,int cardNumber,Image cardImage){
+	public Card(String cardName,int cardValue,int cardSuit,int cardNumber,Image cardImage,Image rotated){
 		heuristicValue = 0;
 		this.cardName = cardName;
 		this.cardValue = cardValue;
 		this.cardSuit = cardSuit;
 		this.cardNumber = cardNumber;
 		this.cardImage = cardImage;
+		this.rotatedCardImage = rotated;
+		this.rotatedCardImage.rotate(90);
+	}
+	public Image getRotatedCardImage(){
+		return rotatedCardImage;
 	}
 	public int getCardValue(){
 		return cardValue;

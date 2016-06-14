@@ -12,18 +12,20 @@ import mainPackage.mainClasses.AppCore;
 
 public class MainMenu extends BasicGameState{
 	private int gameStateID;
-	
-	public MainMenu(int id){
+	private Image backgroundImage;
+	public MainMenu(int id) throws SlickException{
 		gameStateID = id;
 	}
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
 		AppCore.getInstance().shuffleCards();
+		backgroundImage = new Image("PozadinaBelotManja.png");
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
 		g.drawImage(new Image("PozadinaBelotManja.png"),0,0);
-		g.drawImage(AppCore.getInstance().getCards().get(5).getCardImage(),0,0);
+		g.drawImage(AppCore.getInstance().getCards().get(5).getRotatedCardImage(),60,60);
+		g.drawImage(AppCore.getInstance().getCards().get(5).getCardImage(),60,60);
 	}
 
 	@Override

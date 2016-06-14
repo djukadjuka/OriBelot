@@ -12,7 +12,7 @@ public class MainClass extends StateBasedGame{
 	private static final int MENU = 1;
 	public static final int WIDTH = 850;
 	public static final int HEIGHT = 600;
-	public MainClass(String name) {
+	public MainClass(String name) throws SlickException {
 		super(name);
 		this.addState(new MainMenu(MENU));
 	}
