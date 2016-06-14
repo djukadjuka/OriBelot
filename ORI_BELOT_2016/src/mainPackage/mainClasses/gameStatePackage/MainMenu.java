@@ -22,8 +22,8 @@ public class MainMenu extends BasicGameState{
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
-		g.drawImage(new Image("SveKarte/PozadinaBelotManja.png"),0,0);
-		g.drawImage(AppCore.getInstance().getCards().get(5).getCardImage(),50,50);
+		g.drawImage(new Image("PozadinaBelotManja.png"),0,0);
+		g.drawImage(AppCore.getInstance().getCards().get(5).getCardImage(),0,0);
 	}
 
 	@Override
