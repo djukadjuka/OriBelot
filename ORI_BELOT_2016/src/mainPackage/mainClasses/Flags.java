@@ -12,6 +12,9 @@ public class Flags {
 	public static final String BTN_RESET_IMAGE = "Dugmici/RESET_BUTTON.jpg";
 	public static final String BTN_SHOW_RES_IMAGE = "Dugmici/SHOW_RESULT_BUTTON.jpg";
 	public static final String BTN_PICK_ADUT_IMAGE = "Dugmici/PICK_ADUT.jpg";
+	public static final String LIST_ICON = "Ikonice/LIST_IKONA.jpg";
+	public static final String SRCE_ICON = "Ikonice/SRCE_IKONA.jpg";
+	public static final String ZIR_ICON = "Ikonice/ZIR_IKONA.jpg";
 	
 	public static final int BTN_PICK_ADUT_WIDTH = 300;
 	public static final int BTN_PICK_ADUT_HEIGHT = 160;
@@ -75,15 +78,15 @@ public class Flags {
 	
 	//PICK ADUT SPEC
 	
-	public static final int BTN_PICK_ADUT_TOPLEFT_X = WINDOW_WIDTH - BTN_PICK_ADUT_WIDTH;
-	public static final int BTN_PICK_ADUT_TOPLEFT_Y = WINDOW_HEIGHT;
+	public static final int BTN_PICK_ADUT_TOPLEFT_X = WINDOW_WIDTH/2 - BTN_PICK_ADUT_WIDTH/2;
+	public static final int BTN_PICK_ADUT_TOPLEFT_Y = WINDOW_HEIGHT/2 - BTN_PICK_ADUT_HEIGHT/2;
 	
-	public static final int BTN_PICK_ADUT_TOPRIGHT_X = 0;
-	public static final int BTN_PICK_ADUT_TOPRIGHT_Y = 0;
+	public static final int BTN_PICK_ADUT_TOPRIGHT_X = WINDOW_WIDTH/2 + BTN_PICK_ADUT_WIDTH/2;
+	public static final int BTN_PICK_ADUT_TOPRIGHT_Y = WINDOW_HEIGHT/2 - BTN_PICK_ADUT_HEIGHT/2;
 	
-	public static final int BTN_PICK_ADUT_BOTTOMLEFT_X = 0;
-	public static final int BTN_PICK_ADUT_BOTTOMLEFT_Y = 0;
+	public static final int BTN_PICK_ADUT_BOTTOMLEFT_X = WINDOW_WIDTH/2 - BTN_PICK_ADUT_WIDTH/2;
+	public static final int BTN_PICK_ADUT_BOTTOMLEFT_Y = WINDOW_HEIGHT/2 + BTN_PICK_ADUT_HEIGHT/2;
 	
-	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_X = 0;
-	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_Y = 0;
+	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_X = WINDOW_WIDTH/2 + BTN_PICK_ADUT_WIDTH/2;
+	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_Y = WINDOW_HEIGHT/2 + BTN_PICK_ADUT_HEIGHT/2;
 }

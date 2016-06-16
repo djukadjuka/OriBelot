@@ -51,6 +51,12 @@ public class MainState extends BasicGameState{
 				 new Point(Flags.BTN_RESET_BOTTOMLEFT_X,Flags.BTN_RESET_BOTTOMLEFT_Y),
 				 new Point(Flags.BTN_RESET_BOTTOMRIGHT_X,Flags.BTN_RESET_BOTTOMRIGHT_X),
 				 new Image(Flags.BTN_RESET_IMAGE));
+		
+		pickAdutButton = new PressableRectangle(new Point(Flags.BTN_PICK_ADUT_TOPLEFT_X,Flags.BTN_PICK_ADUT_TOPLEFT_Y), 
+				                                new Point(Flags.BTN_PICK_ADUT_TOPRIGHT_X,Flags.BTN_PICK_ADUT_TOPRIGHT_Y), 
+				                                new Point(Flags.BTN_PICK_ADUT_BOTTOMLEFT_X,Flags.BTN_PICK_ADUT_BOTTOMLEFT_Y), 
+				                                new Point(Flags.BTN_PICK_ADUT_BOTTOMRIGHT_X,Flags.BTN_PICK_ADUT_BOTTOMRIGHT_Y), 
+				                                new Image(Flags.BTN_PICK_ADUT_IMAGE));
 	}
 	/**
 	 * Poziva se svaki put kad treba da se prikaze nesto na ekranu.
@@ -97,5 +103,6 @@ public class MainState extends BasicGameState{
 	private void drawInterface(Graphics g){
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
 		g.drawImage(showResultButton.getImage(), showResultButton.getTopLeft().getX(), showResultButton.getTopLeft().getY());
+		g.drawImage(pickAdutButton.getImage(), pickAdutButton.getTopLeft().getX(), pickAdutButton.getTopLeft().getY());
 	}
 }
