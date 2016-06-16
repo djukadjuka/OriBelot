@@ -11,6 +11,7 @@ public class Card {
 	private String cardName;
 	private Image cardImage;
 	private Image rotatedCardImage;
+	private boolean playable;
 	
 	public Card(String cardName,int cardValue,int cardSuit,int cardNumber,Image cardImage,Image rotated){
 		heuristicValue = 0;
@@ -21,6 +22,7 @@ public class Card {
 		this.cardImage = cardImage;
 		this.rotatedCardImage = rotated;
 		this.rotatedCardImage.rotate(90);
+		this.playable = false;
 	}
 	public Image getRotatedCardImage(){
 		return rotatedCardImage;

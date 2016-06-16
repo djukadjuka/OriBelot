@@ -6,6 +6,7 @@ import mainPackage.mainClasses.Card;
 
 public class HumanPlayer {
 	private ArrayList<Card> playerCards;
+	
 	public HumanPlayer(){
 		playerCards = new ArrayList<>();
 	}

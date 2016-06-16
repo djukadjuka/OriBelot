@@ -5,21 +5,24 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Flags;
+import mainPackage.mainClasses.supportPackage.PressableRectangle;
 import mainPackage.mainClasses.supportPackage.SecondCounter;
-import net.java.games.input.Mouse;
 
 public class MainState extends BasicGameState{
 	//STVARI
 	private int gameStateID;
+	private PressableRectangle resetButton;
+	private PressableRectangle showResultButton;			//dugme prikazuje globalni rezultat i 
+	private PressableRectangle pickAdutButton;
 	
 	//SLIKE
 	private Image backgroundImage;
-	private Image resetButton;
 	
 	//STATICKE
 	public static SecondCounter secondCounter;
@@ -37,7 +40,17 @@ public class MainState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		AppCore.getInstance().shuffleCards();
 		backgroundImage = new Image(Flags.POZADINA);
-		resetButton = new Image(Flags.BTN_RESET);
+		showResultButton = new PressableRectangle(new Point(Flags.BTN_SHOW_RES_TOPLEFT_X,Flags.BTN_SHOW_RES_TOPLEFT_Y),
+				 new Point(Flags.BTN_SHOW_RES_TOPRIGHT_X,Flags.BTN_SHOW_RES_TOPRIGHT_Y),
+				 new Point(Flags.BTN_SHOW_RES_BOTTOMLEFT_X,Flags.BTN_SHOW_RES_BOTTOMLEFT_Y),
+				 new Point(Flags.BTN_SHOW_RES_BOTTOMRIGHT_X,Flags.BTN_SHOW_RES_BOTTOMRIGHT_X),
+				 new Image(Flags.BTN_SHOW_RES_IMAGE));
+
+		resetButton = new PressableRectangle(new Point(Flags.BTN_RESET_TOPLEFT_X,Flags.BTN_RESET_TOPLEFT_Y),
+				 new Point(Flags.BTN_RESET_TOPRIGHT_X,Flags.BTN_RESET_TOPRIGHT_Y),
+				 new Point(Flags.BTN_RESET_BOTTOMLEFT_X,Flags.BTN_RESET_BOTTOMLEFT_Y),
+				 new Point(Flags.BTN_RESET_BOTTOMRIGHT_X,Flags.BTN_RESET_BOTTOMRIGHT_X),
+				 new Image(Flags.BTN_RESET_IMAGE));
 	}
 	/**
 	 * Poziva se svaki put kad treba da se prikaze nesto na ekranu.
@@ -53,18 +66,7 @@ public class MainState extends BasicGameState{
 					+ MOUSE_X 
 					+")| Y("
 					+MOUSE_Y+")", 10, 10);
-		if(resetClicked){
-			g.drawString("\n\n\nReset clicked", 10, 10);
-		}else{
-			g.drawString("\n\n\nReset not clicked", 10, 10);
-		}
-		if(cardClicked){
-			g.drawString("\n\n\n\nCard Clicked : YES", 10, 10);
-		}else{
-			g.drawString("\n\n\n\nCard Clicked : NO", 10, 10);
-		}
-		drawCardsTest(g);
-		drawButtons(g);
+		drawInterface(g);
 	}
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int DELTA) throws SlickException {
@@ -74,8 +76,6 @@ public class MainState extends BasicGameState{
 		
 		/**Nastimaj misa*/
 		configureMouseXY(inp);
-		doReset(inp);
-		doCardClickCheck(inp);
 	}
 	
 	/**
@@ -94,113 +94,8 @@ public class MainState extends BasicGameState{
 		MOUSE_X = inp.getMouseX();
 		MOUSE_Y = inp.getMouseY();
 	}
-	private void drawCardsTest(Graphics g){
-		int currentOffset = 0;
-		for(int i=0;	i<8;	i++){
-			g.drawImage(AppCore.getInstance().getCards().get(i).getCardImage(), 
-						Flags.CARD_OFFSET_X + currentOffset, 
-						Flags.WINDOW_HEIGHT - Flags.CARD_HEIGHT - Flags.CARD_OFFSET_Y);
-			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
-		}
-	}
-	private void drawButtons(Graphics g){
-		g.drawImage(resetButton,Flags.BTN_RESET_TOPLEFT_X,Flags.BTN_RESET_TOPLEFT_Y);
-	}
-	
-	private boolean resetClicked = false;
-	
-	private void doReset(Input inp){
-		if(inp.isMousePressed(0)){
-			if(   MOUSE_X < Flags.BTN_RESET_TOPRIGHT_X 
-			   && MOUSE_X < Flags.BTN_RESET_BOTTOMRIGHT_X
-			   && MOUSE_X > Flags.BTN_RESET_TOPLEFT_X
-			   && MOUSE_X > Flags.BTN_RESET_BOTTOMLEFT_X
-			   
-			   && MOUSE_Y < Flags.BTN_RESET_BOTTOMRIGTH_Y
-			   && MOUSE_Y < Flags.BTN_RESET_BOTTOMLEFT_Y
-			   && MOUSE_Y > Flags.BTN_RESET_TOPLEFT_Y
-			   && MOUSE_Y > Flags.BTN_RESET_TOPRIGHT_Y){
-				resetClicked = true;
-			}else{
-				resetClicked = false;
-			}
-			int offset = 200;
-			for(int i=0;	i<8;	i++){
-				if(   MOUSE_X > (Flags.CARD_TOPLEFT_X + offset)
-				   && MOUSE_X > (Flags.CARD_BOTTOMLEFT_X + offset)
-				   && MOUSE_X < (Flags.CARD_TOPRIGHT_X + offset)
-				   && MOUSE_X < (Flags.CARD_BOTTOMRIGHT_X + offset)
-				   
-				   && MOUSE_Y > (Flags.CARD_TOPLEFT_Y)
-				   && MOUSE_Y > (Flags.CARD_TOPRIGHT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMLEFT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMRIGHT_Y)){
-					cardClicked = true;
-					break;
-				}else{
-					cardClicked = false;
-				}
-				offset += Flags.CARD_INCREMENT_OFFSET + Flags.CARD_WIDTH;
-			}
-		}
-	}
-	private void doCardClickCheck(Input inp){
-		if(inp.isMousePressed(0)){
-			int offset = 200;
-			for(int i=0;	i<8;	i++){
-				if(   MOUSE_X > (Flags.CARD_TOPLEFT_X + offset)
-				   && MOUSE_X > (Flags.CARD_BOTTOMLEFT_X + offset)
-				   && MOUSE_X < (Flags.CARD_TOPRIGHT_X + offset)
-				   && MOUSE_X < (Flags.CARD_BOTTOMRIGHT_X + offset)
-				   
-				   && MOUSE_Y > (Flags.CARD_TOPLEFT_Y)
-				   && MOUSE_Y > (Flags.CARD_TOPRIGHT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMLEFT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMRIGHT_Y)){
-					cardClicked = true;
-					break;
-				}else{
-				}
-				offset += Flags.CARD_INCREMENT_OFFSET + Flags.CARD_WIDTH;
-			}
-		}
-	}
-	private boolean cardClicked = false;
-	
-	private void doMouseClick(Input inp){
-		if(inp.isMousePressed(0)){
-			int offset = 200;
-			for(int i=0;	i<8;	i++){///da li je karta pritisnuta
-				if(   MOUSE_X > (Flags.CARD_TOPLEFT_X + offset)
-				   && MOUSE_X > (Flags.CARD_BOTTOMLEFT_X + offset)
-				   && MOUSE_X < (Flags.CARD_TOPRIGHT_X + offset)
-				   && MOUSE_X < (Flags.CARD_BOTTOMRIGHT_X + offset)
-				   
-				   && MOUSE_Y > (Flags.CARD_TOPLEFT_Y)
-				   && MOUSE_Y > (Flags.CARD_TOPRIGHT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMLEFT_Y)
-				   && MOUSE_Y < (Flags.CARD_BOTTOMRIGHT_Y)){
-					cardClicked = true;
-					break;
-				}else{
-					cardClicked = false;
-				}
-				offset += Flags.CARD_INCREMENT_OFFSET + Flags.CARD_WIDTH;
-			}///kraj da li je karta pritisnuta
-			
-			if(   MOUSE_X < Flags.BTN_RESET_TOPRIGHT_X 
-			   && MOUSE_X < Flags.BTN_RESET_BOTTOMRIGHT_X
-			   && MOUSE_X > Flags.BTN_RESET_TOPLEFT_X
-			   && MOUSE_X > Flags.BTN_RESET_BOTTOMLEFT_X
-					   
-					   && MOUSE_Y < Flags.BTN_RESET_BOTTOMRIGTH_Y
-					   && MOUSE_Y < Flags.BTN_RESET_BOTTOMLEFT_Y
-					   && MOUSE_Y > Flags.BTN_RESET_TOPLEFT_Y
-					   && MOUSE_Y > Flags.BTN_RESET_TOPRIGHT_Y){
-						resetClicked = true;
-					}else{
-						resetClicked = false;
-					}
-		}
+	private void drawInterface(Graphics g){
+		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
+		g.drawImage(showResultButton.getImage(), showResultButton.getTopLeft().getX(), showResultButton.getTopLeft().getY());
 	}
 }

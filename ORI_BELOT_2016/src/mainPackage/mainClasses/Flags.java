@@ -9,7 +9,14 @@ public class Flags {
 	
 	// GRAFIKA
 	public static final String POZADINA = "PozadinaBelotManja.png";
-	public static final String BTN_RESET = "Dugmici/RESET_BUTTON.jpg";
+	public static final String BTN_RESET_IMAGE = "Dugmici/RESET_BUTTON.jpg";
+	public static final String BTN_SHOW_RES_IMAGE = "Dugmici/SHOW_RESULT_BUTTON.jpg";
+	public static final String BTN_PICK_ADUT_IMAGE = "Dugmici/PICK_ADUT.jpg";
+	
+	public static final int BTN_PICK_ADUT_WIDTH = 300;
+	public static final int BTN_PICK_ADUT_HEIGHT = 160;
+	public static final int BTN_SHOW_RES_WIDTH = 150;
+	public static final int BTN_SHOW_RES_HEIGHT = 50;
 	public static final int BTN_RESET_WIDTH = 150;
 	public static final int BTN_RESET_HEIGHT = 50;
 	public static final int CARD_WIDTH = 60;
@@ -17,6 +24,7 @@ public class Flags {
 	public static final int WINDOW_WIDTH= 850;
 	public static final int WINDOW_HEIGHT = 600;
 	public static final int CARD_OFFSET_X = 200;
+	public static final int BTN_OFFSET = 10;
 	public static final int CARD_OFFSET_Y = 10;
 	public static final int CARD_INCREMENT_OFFSET = 10;
 	
@@ -51,4 +59,31 @@ public class Flags {
 	
 	public static final int BTN_RESET_BOTTOMRIGHT_X = BTN_RESET_WIDTH;
 	public static final int BTN_RESET_BOTTOMRIGTH_Y = WINDOW_HEIGHT - 10;
+	
+	//SHOW RES SPEC
+	public static final int BTN_SHOW_RES_TOPLEFT_X = 0;
+	public static final int BTN_SHOW_RES_TOPLEFT_Y = WINDOW_HEIGHT - 2*BTN_OFFSET - BTN_RESET_HEIGHT - BTN_SHOW_RES_HEIGHT;
+	
+	public static final int BTN_SHOW_RES_TOPRIGHT_X = BTN_SHOW_RES_WIDTH;
+	public static final int BTN_SHOW_RES_TOPRIGHT_Y = WINDOW_HEIGHT - 2*BTN_OFFSET - BTN_RESET_HEIGHT - BTN_SHOW_RES_HEIGHT;
+	
+	public static final int BTN_SHOW_RES_BOTTOMLEFT_X = 0;
+	public static final int BTN_SHOW_RES_BOTTOMLEFT_Y = WINDOW_HEIGHT - 2*BTN_OFFSET;
+	
+	public static final int BTN_SHOW_RES_BOTTOMRIGHT_X = BTN_SHOW_RES_WIDTH;
+	public static final int BTN_SHOW_RES_BOTTOMRIGHT_Y = WINDOW_HEIGHT - 2*BTN_OFFSET;
+	
+	//PICK ADUT SPEC
+	
+	public static final int BTN_PICK_ADUT_TOPLEFT_X = WINDOW_WIDTH - BTN_PICK_ADUT_WIDTH;
+	public static final int BTN_PICK_ADUT_TOPLEFT_Y = WINDOW_HEIGHT;
+	
+	public static final int BTN_PICK_ADUT_TOPRIGHT_X = 0;
+	public static final int BTN_PICK_ADUT_TOPRIGHT_Y = 0;
+	
+	public static final int BTN_PICK_ADUT_BOTTOMLEFT_X = 0;
+	public static final int BTN_PICK_ADUT_BOTTOMLEFT_Y = 0;
+	
+	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_X = 0;
+	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_Y = 0;
 }
