@@ -1,5 +1,6 @@
 package mainPackage.mainClasses.supportPackage;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
@@ -60,6 +61,9 @@ public class PressableRectangle {
 	}
 
 	public boolean isPressed(int MOUSE_X,int MOUSE_Y){
+		System.out.println(MOUSE_X + " " + MOUSE_Y);
+		System.out.println(topLeft.getX() + " " + topRight.getX() + "\n" + bottomLeft.getX() + " " + bottomRight.getX());
+		System.out.println("================================================");
 		if(    MOUSE_X < topRight.getX()
 			&& MOUSE_X < bottomRight.getX()
 			&& MOUSE_X > topLeft.getX()
@@ -69,8 +73,12 @@ public class PressableRectangle {
 		    && MOUSE_Y < bottomLeft.getY()
 		    && MOUSE_Y > topLeft.getY()
 		    && MOUSE_Y > topRight.getY()){
+			System.out.println("Pressed");
 			return true;
 		}
 		return false;
+	}
+	public void drawThis(Graphics g){
+		g.drawImage(getImage(), getTopLeft().getX(), getTopLeft().getY());
 	}
 }

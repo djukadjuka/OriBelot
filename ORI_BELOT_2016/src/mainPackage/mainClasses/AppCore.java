@@ -101,17 +101,6 @@ public class AppCore {
 		while(true){
 			shuffleCards();
 			setAdut(Flags.SRCE);
-			/*setAdut(Flags.SRCE);
-			for(Card karta : cards){
-				System.out.println(karta);
-			}
-			System.out.println("********************************************");
-			try {
-				System.in.read();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 		}
 	}
 	public ArrayList<Card> getCards(){
