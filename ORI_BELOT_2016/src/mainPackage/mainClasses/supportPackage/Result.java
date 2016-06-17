@@ -26,6 +26,7 @@ public class Result {
 	public void setCompCompResult(int compCompResult) {
 		this.compCompResult = compCompResult;
 	}
+	@Override
 	public String toString(){
 		return "Player,Comp : " + playerCompResult + "| Comp,Comp : " + compCompResult;
 	}

@@ -63,9 +63,6 @@ public class PressableRectangle {
 	}
 
 	public boolean isPressed(int MOUSE_X,int MOUSE_Y){
-		System.out.println(MOUSE_X + " " + MOUSE_Y);
-		System.out.println(topLeft.getX() + " " + topRight.getX() + "\n" + bottomLeft.getX() + " " + bottomRight.getX());
-		System.out.println("================================================");
 		if(    MOUSE_X < topRight.getX()
 			&& MOUSE_X < bottomRight.getX()
 			&& MOUSE_X > topLeft.getX()
@@ -75,7 +72,8 @@ public class PressableRectangle {
 		    && MOUSE_Y < bottomLeft.getY()
 		    && MOUSE_Y > topLeft.getY()
 		    && MOUSE_Y > topRight.getY()){
-			MainState.humanPickedAdut = false;
+			MainState.HUMAN_TO_CHOOSE = false;			//ako je lik izabrao aduta ili je otisao dalje - ne moze vise da bira aduta
+			MainState.DEAL_32 = true;					//											   - sigurno mogu jos 8 karata da se podele
 			return true;
 		}
 		return false;

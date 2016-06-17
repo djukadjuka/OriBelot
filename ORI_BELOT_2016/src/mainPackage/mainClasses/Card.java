@@ -1,7 +1,6 @@
 package mainPackage.mainClasses;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 public class Card {
 	private int cardValue;
@@ -75,6 +74,7 @@ public class Card {
 	public void setCardName(String cardName) {
 		this.cardName = cardName;
 	}
+	@Override
 	public String toString(){
 		return cardName + " | Value : " + cardValue + "\n ==========================";
 	}

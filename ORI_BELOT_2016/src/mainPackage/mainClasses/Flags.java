@@ -1,7 +1,5 @@
 package mainPackage.mainClasses;
 
-import javax.crypto.spec.PSource.PSpecified;
-
 public class Flags {
 	// BOJE KARATA
 	public static final int SRCE = 1;
