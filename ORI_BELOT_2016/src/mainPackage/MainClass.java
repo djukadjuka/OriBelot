@@ -1,5 +1,7 @@
 package mainPackage;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -9,12 +11,15 @@ import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
 
 public class MainClass extends StateBasedGame{
+	
 	private static final String GAME_NAME = "Belot ORI 2016";
 	private static final int MENU = 1;
+	
 	public MainClass(String name) throws SlickException {
 		super(name);
 		this.addState(new MainState(MENU));
 	}
+	
 	public static void main(String ada[]){
 		AppGameContainer appgc;
 		try {

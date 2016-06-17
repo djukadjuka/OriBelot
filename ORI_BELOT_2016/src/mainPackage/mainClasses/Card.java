@@ -11,6 +11,8 @@ public class Card {
 	private String cardName;
 	private Image cardImage;
 	private Image rotatedCardImage;
+	private boolean isInHand = true;
+	private boolean playable = false;
 	
 	public Card(String cardName,int cardValue,int cardSuit,int cardNumber,Image cardImage,Image rotated){
 		heuristicValue = 0;
@@ -22,6 +24,23 @@ public class Card {
 		this.rotatedCardImage = rotated;
 		this.rotatedCardImage.rotate(90);
 	}
+	
+	public boolean isPlayable() {
+		return playable;
+	}
+
+	public void setPlayable(boolean playable) {
+		this.playable = playable;
+	}
+
+	public boolean isInHand() {
+		return isInHand;
+	}
+
+	public void setInHand(boolean isInHand) {
+		this.isInHand = isInHand;
+	}
+
 	public Image getRotatedCardImage(){
 		return rotatedCardImage;
 	}

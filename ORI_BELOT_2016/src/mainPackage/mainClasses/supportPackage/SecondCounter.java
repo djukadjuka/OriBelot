@@ -10,13 +10,16 @@ package mainPackage.mainClasses.supportPackage;
 public class SecondCounter {
 	private int FULL_TIME_IN_SECONDS;
 	private int MILLISECONDS;
+	
 	public SecondCounter(){
 		MILLISECONDS = 0;
 		FULL_TIME_IN_SECONDS = 0;
 	}
+	
 	private void calculateMilli(int milisec){
 		MILLISECONDS += milisec;
 	}
+	
 	public void calculateSec(int milisec){
 		calculateMilli(milisec);
 		if(MILLISECONDS >= 1000){
@@ -24,9 +27,11 @@ public class SecondCounter {
 			MILLISECONDS = 0;
 		}
 	}
+	
 	public int getSeconds(){
 		return FULL_TIME_IN_SECONDS;
 	}
+	
 	public int getMilliseconds(){
 		return MILLISECONDS;
 	}
