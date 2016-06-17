@@ -40,8 +40,12 @@ public class MainState extends BasicGameState{
 	public static int MOUSE_Y;
 	public static int leftCardNumber=0,topCardNumber=0,rightCardNumber=0;
 	
-	boolean sec = false;
 	boolean sec2 = false;
+	
+	public static boolean dealCards1 = true;
+	public static boolean chooseAdut = false;
+	public static boolean dealCards2 = false;
+	public static boolean humanPickedAdut = true;
 	
 	public MainState(int id) throws SlickException{
 		gameStateID = id;
@@ -93,67 +97,83 @@ public class MainState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int DELTA) throws SlickException {
 		
 		Input inp = gc.getInput();
+		calibrateMouse(inp);
 		
-		if(sec2){
-			sec = false;
-		}
-		
-		if(sec){
-			AppCore.getInstance().chooseAdut();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if(humanPickedAdut){
+			if(sec2){
 			}
-
 			
-			for(int i=24; i < 32; i++){
-				if(i%4 == 0){
-					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				} else if(i%4 == 1){
-					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					rightCardNumber += 1;
-				} else if(i%4 == 2){
-					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					topCardNumber += 1;
-				} else{
-					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					leftCardNumber += 1;
+			if(chooseAdut){
+				if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					System.out.println("Mouse Clicked");
+					if(pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y))
+						{
+							chooseAdut = false;
+							dealCards2 = true;
+						}
+						
 				}
 			}
 			
-			AppCore.getInstance().getHumanPlayer().sortCards();
-			
-			AppCore.getInstance().declarations();
-			System.out.println("!");
-			sec2 = true; 
-		}
-		
-		if(AppCore.getInstance().getHumanPlayer().getCardNumber() == 0 && // pocinje nova mesnja
-				AppCore.getInstance().getPlayer1().getCardNumber() == 0 &&
-				AppCore.getInstance().getPlayer2().getCardNumber() == 0 &&
-				AppCore.getInstance().getPlayer3().getCardNumber() == 0)
-		{
-			AppCore.getInstance().shuffleCards();
-
-			for(int i=0; i < 24; i++){
-				if(i%4 == 0){
-					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				} else if(i%4 == 1){
-					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					rightCardNumber += 1;
-				} else if(i%4 == 2){
-					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					topCardNumber += 1;
-				} else{
-					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					leftCardNumber += 1;
+			if(dealCards2){
+				
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+	
+				
+				for(int i=24; i < 32; i++){
+					if(i%4 == 0){
+						AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					} else if(i%4 == 1){
+						AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						rightCardNumber += 1;
+					} else if(i%4 == 2){
+						AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						topCardNumber += 1;
+					} else{
+						AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						leftCardNumber += 1;
+					}
+				}
+				
+				AppCore.getInstance().getHumanPlayer().sortCards();
+				
+				AppCore.getInstance().declarations();
+				System.out.println("!");
+				dealCards2 = false;
 			}
-			sec = true;
-			AppCore.getInstance().getHumanPlayer().sortCards();
+			
+			if(dealCards1)
+			{
+				AppCore.getInstance().shuffleCards();
+	
+				for(int i=0; i < 24; i++){
+					if(i%4 == 0){
+						AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					} else if(i%4 == 1){
+						AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						rightCardNumber += 1;
+					} else if(i%4 == 2){
+						AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						topCardNumber += 1;
+					} else{
+						AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+						leftCardNumber += 1;
+					}
+				}
+				chooseAdut = true;
+				dealCards1 = false;
+				AppCore.getInstance().getHumanPlayer().sortCards();
+			}
 		}
+	}
+	private void calibrateMouse(Input in){
+		MOUSE_X = in.getMouseX();
+		MOUSE_Y = in.getMouseY();
 	}
 	/**
 	 * Vraca id od ovog sranja. <br/>Potrebno u mainu da bi mogli da se prebacujemo iz stanja u stanje.
@@ -207,9 +227,14 @@ public class MainState extends BasicGameState{
 		drawRightCards(g);
 		drawTopCards(g);
 		changeAdutCorner(g);
+		
+		if(chooseAdut == true){
+			drawHumanPickAdut(true, g);
+		}
 	}
+	
 	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
-		pickAdutDialog.drawDialog(g, true);
+		pickAdutDialog.drawDialog(g, false);
 	}
 	
 	private void changeAdutCorner(Graphics g){

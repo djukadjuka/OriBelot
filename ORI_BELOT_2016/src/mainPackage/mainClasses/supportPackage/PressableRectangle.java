@@ -4,6 +4,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
+import mainPackage.mainClasses.gameStatePackage.MainState;
+
 /**
  * OVO JE DUGME AAAA
  * */
@@ -73,7 +75,7 @@ public class PressableRectangle {
 		    && MOUSE_Y < bottomLeft.getY()
 		    && MOUSE_Y > topLeft.getY()
 		    && MOUSE_Y > topRight.getY()){
-			System.out.println("Pressed");
+			MainState.humanPickedAdut = false;
 			return true;
 		}
 		return false;

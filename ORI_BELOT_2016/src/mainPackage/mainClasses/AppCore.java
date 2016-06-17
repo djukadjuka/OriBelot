@@ -124,7 +124,6 @@ public class AppCore {
 			}
 			
 			Thread.sleep(1000);
-			chooseAdut();
 			
 			for(int i=24; i < 32; i++){
 				if(i%4 == 0){
@@ -174,9 +173,6 @@ public class AppCore {
 //			p3.clearCards();
 			setAdut(Flags.SRCE);
 		}
-	}
-	
-	public void chooseAdut(){
 	}
 	
 	public HumanPlayer getHumanPlayer(){
