@@ -172,6 +172,7 @@ public class AppCore {
 //			p1.clearCards();
 //			p2.clearCards();
 //			p3.clearCards();
+			setAdut(Flags.SRCE);
 		}
 	}
 	

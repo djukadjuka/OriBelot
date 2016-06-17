@@ -23,6 +23,7 @@ public class Card {
 		this.cardImage = cardImage;
 		this.rotatedCardImage = rotated;
 		this.rotatedCardImage.rotate(90);
+		this.playable = false;
 	}
 	
 	public boolean isPlayable() {

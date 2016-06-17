@@ -91,7 +91,6 @@ public class MainState extends BasicGameState{
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int DELTA) throws SlickException {
-		secondCounter.calculateSec(DELTA);
 		
 		Input inp = gc.getInput();
 		
@@ -156,7 +155,6 @@ public class MainState extends BasicGameState{
 			AppCore.getInstance().getHumanPlayer().sortCards();
 		}
 	}
-	
 	/**
 	 * Vraca id od ovog sranja. <br/>Potrebno u mainu da bi mogli da se prebacujemo iz stanja u stanje.
 	 * */
@@ -209,11 +207,11 @@ public class MainState extends BasicGameState{
 		drawRightCards(g);
 		drawTopCards(g);
 		changeAdutCorner(g);
-		
 	}
 	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
 		pickAdutDialog.drawDialog(g, true);
 	}
+	
 	private void changeAdutCorner(Graphics g){
 		int gdeX = Flags.WINDOW_WIDTH - Flags.CHOSEN_ADUT_ICON_WIDTH;
 		int gdeY = Flags.WINDOW_HEIGHT - Flags.CHOSEN_ADUT_ICON_HEIGHT;
