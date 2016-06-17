@@ -20,6 +20,7 @@ public class MainState extends BasicGameState{
 	private PressableRectangle resetButton;
 	private PressableRectangle showResultButton;			//dugme prikazuje globalni rezultat i 
 	private PressableRectangle pickAdutButton;
+	private PressableRectangle pickListButton;
 	
 	//SLIKE
 	private Image backgroundImage;
@@ -57,6 +58,11 @@ public class MainState extends BasicGameState{
 				                                new Point(Flags.BTN_PICK_ADUT_BOTTOMLEFT_X,Flags.BTN_PICK_ADUT_BOTTOMLEFT_Y), 
 				                                new Point(Flags.BTN_PICK_ADUT_BOTTOMRIGHT_X,Flags.BTN_PICK_ADUT_BOTTOMRIGHT_Y), 
 				                                new Image(Flags.BTN_PICK_ADUT_IMAGE));
+		pickListButton = new PressableRectangle(new Point(Flags.BTN_LIST_TOPLEFT_X,Flags.BTN_LIST_TOPLEFT_Y),
+												new Point(Flags.BTN_LIST_TOPRIGHT_X,Flags.BTN_LIST_TOPRIGHT_Y),
+												new Point(Flags.BTN_LIST_BOTTOMLEFT_X,Flags.BTN_LIST_BOTTOMLEFT_Y),
+												new Point(Flags.BTN_LIST_BOTTOMRIGHT_X,Flags.BTN_LIST_BOTTOMRIGHT_Y),
+												new Image(Flags.BTN_LIST_ICON));
 	}
 	/**
 	 * Poziva se svaki put kad treba da se prikaze nesto na ekranu.
@@ -104,5 +110,6 @@ public class MainState extends BasicGameState{
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
 		g.drawImage(showResultButton.getImage(), showResultButton.getTopLeft().getX(), showResultButton.getTopLeft().getY());
 		g.drawImage(pickAdutButton.getImage(), pickAdutButton.getTopLeft().getX(), pickAdutButton.getTopLeft().getY());
+		g.drawImage(pickListButton.getImage(), pickListButton.getTopLeft().getX(), pickListButton.getTopLeft().getY());
 	}
 }

@@ -1,5 +1,7 @@
 package mainPackage.mainClasses;
 
+import javax.crypto.spec.PSource.PSpecified;
+
 public class Flags {
 	// BOJE KARATA
 	public static final int SRCE = 1;
@@ -12,9 +14,19 @@ public class Flags {
 	public static final String BTN_RESET_IMAGE = "Dugmici/RESET_BUTTON.jpg";
 	public static final String BTN_SHOW_RES_IMAGE = "Dugmici/SHOW_RESULT_BUTTON.jpg";
 	public static final String BTN_PICK_ADUT_IMAGE = "Dugmici/PICK_ADUT.jpg";
-	public static final String LIST_ICON = "Ikonice/LIST_IKONA.jpg";
-	public static final String SRCE_ICON = "Ikonice/SRCE_IKONA.jpg";
-	public static final String ZIR_ICON = "Ikonice/ZIR_IKONA.jpg";
+	public static final String BTN_LIST_ICON = "Ikonice/LIST_IKONA.jpg";
+	public static final String BTN_SRCE_ICON = "Ikonice/SRCE_IKONA.jpg";
+	public static final String BTN_ZIR_ICON = "Ikonice/ZIR_IKONA.jpg";
+	public static final String BTN_TIKVA_ICON = "Ikonice/TIKVA_IKONA.jpg";
+	
+	public static final int BTN_LIST_ICON_WIDTH = 0;
+	public static final int BTN_LIST_ICON_HEIGHT = 0;
+	public static final int BTN_ZIR_ICON_WIDTH = 0;
+	public static final int BTN_ZIR_ICON_HEIGHT = 0;
+	public static final int BTN_SRCE_ICON_WIDTH = 0;
+	public static final int BTN_SRCE_ICON_HEIGHT = 0;
+	public static final int BTN_TIKVA_ICON_WIDTH = 0;
+	public static final int BTN_TIKVA_ICON_HEIGHT = 0;
 	
 	public static final int BTN_PICK_ADUT_WIDTH = 300;
 	public static final int BTN_PICK_ADUT_HEIGHT = 160;
@@ -89,4 +101,15 @@ public class Flags {
 	
 	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_X = WINDOW_WIDTH/2 + BTN_PICK_ADUT_WIDTH/2;
 	public static final int BTN_PICK_ADUT_BOTTOMRIGHT_Y = WINDOW_HEIGHT/2 + BTN_PICK_ADUT_HEIGHT/2;
+	
+	//ZIR,LIST,SRCE,TIKVA Y
+	public static final int BTN_LIST_TOPLEFT_X = WINDOW_WIDTH/2 - BTN_LIST_ICON_WIDTH/2 -80;
+	public static final int BTN_LIST_TOPLEFT_Y = WINDOW_HEIGHT/2 - BTN_LIST_ICON_HEIGHT/2;
+	public static final int BTN_LIST_TOPRIGHT_X = WINDOW_WIDTH/2 + BTN_LIST_ICON_WIDTH/2-80;
+	public static final int BTN_LIST_TOPRIGHT_Y = WINDOW_HEIGHT/2 - BTN_LIST_ICON_HEIGHT/2;
+	public static final int BTN_LIST_BOTTOMRIGHT_X = WINDOW_WIDTH/2 - BTN_LIST_ICON_WIDTH/2-80;
+	public static final int BTN_LIST_BOTTOMRIGHT_Y = WINDOW_HEIGHT/2 + BTN_LIST_ICON_HEIGHT/2;
+	public static final int BTN_LIST_BOTTOMLEFT_X = WINDOW_WIDTH/2 + BTN_LIST_ICON_WIDTH/2-80;
+	public static final int BTN_LIST_BOTTOMLEFT_Y = WINDOW_HEIGHT/2 + BTN_LIST_ICON_HEIGHT/2;
+	
 }
