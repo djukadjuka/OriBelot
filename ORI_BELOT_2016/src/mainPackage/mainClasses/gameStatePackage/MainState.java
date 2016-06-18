@@ -92,6 +92,7 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
+		
 		if(Flags.HUMAN_TO_CHOOSE){
 			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :

@@ -79,6 +79,21 @@ public class PressableRectangle {
 		}
 		return false;
 	}
+	
+	public boolean isPressedPQ(int MOUSE_X,int MOUSE_Y){
+		if(    MOUSE_X < topRight.getX()
+			&& MOUSE_X < bottomRight.getX()
+			&& MOUSE_X > topLeft.getX()
+		    && MOUSE_X > bottomLeft.getX()
+		    
+		    && MOUSE_Y < bottomRight.getY()
+		    && MOUSE_Y < bottomLeft.getY()
+		    && MOUSE_Y > topLeft.getY()
+		    && MOUSE_Y > topRight.getY()){
+			return true;
+		}
+		return false;
+	}
 	public void drawThis(Graphics g){
 		g.drawImage(getImage(), getTopLeft().getX(), getTopLeft().getY());
 	}
