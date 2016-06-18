@@ -2,7 +2,9 @@ package mainPackage.mainClasses.playerPackage;
 
 import java.util.ArrayList;
 
+import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
+import mainPackage.mainClasses.Flags;
 
 public class BabicPlayer implements Player{
 
@@ -33,11 +35,21 @@ public class BabicPlayer implements Player{
 	public void dropCardIndex(int i){
 		playerCards.remove(i);
 	}
-
+	
+	
+	// izvuci u interface
+	public void chooseAdut(int trenutniPlayer){ // posto su sad svi playeri instanca iste klase
+												// salje se ovaj int ali to ce nestati
+		if(AppCore.getInstance().getLastToPlay() == trenutniPlayer) {
+			AppCore.adut = Flags.SRCE;
+			Flags.DEAL_32 = true;
+			System.out.println("Player " + (trenutniPlayer - 1) + " javio srce");
+		} else{
+			System.out.println("Player " + (trenutniPlayer - 1) + " rekao dalje");
+		}
+	}
 	
 	public void makePlayableCards(Card card,int AdutColor){
-		
-		
 		boolean flag = false;
 		for(int i = 0; i < playerCards.size(); i++){
 			Card c = playerCards.get(i);
@@ -56,13 +68,12 @@ public class BabicPlayer implements Player{
 					flag1 = true;
 				}
 			}
-			
+		}	
 		if(flag1 == false){
 			for(int i = 0; i < playerCards.size(); i++){
 				Card c = playerCards.get(i);
 				c.setPlayable(true);
 			}
-		}
 		}
 	}
 	

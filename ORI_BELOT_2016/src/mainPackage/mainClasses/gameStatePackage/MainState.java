@@ -37,8 +37,6 @@ public class MainState extends BasicGameState{
 	public static int MOUSE_Y;
 	public static int leftCardNumber=0,topCardNumber=0,rightCardNumber=0;
 	
-	boolean sec2 = false;
-	
 	public MainState(int id) throws SlickException{
 		gameStateID = id;
 		secondCounter = new SecondCounter();
@@ -92,35 +90,6 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
-		if(Flags.HUMAN_TO_CHOOSE){
-			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
-																		//humanChosesAdut -> xClicked -> x.isPressed
-			}
-		}
-		if(Flags.DEAL_32){
-			try{
-				Thread.sleep(300);
-			}catch(InterruptedException e){
-				e.printStackTrace();
-			}
-			for(int i=24;i<32;	i++){
-				if(i%4 == 0){
-					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				} else if(i%4 == 1){
-					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					rightCardNumber += 1;
-				} else if(i%4 == 2){
-					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					topCardNumber += 1;
-				} else{
-					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-					leftCardNumber += 1;
-				}
-			}
-			AppCore.getInstance().getHumanPlayer().sortCards();
-			AppCore.getInstance().declarations();
-		}
 		if(Flags.DEAL_24){
 			AppCore.getInstance().shuffleCards();
 			
@@ -141,7 +110,98 @@ public class MainState extends BasicGameState{
 			AppCore.getInstance().getHumanPlayer().sortCards();
 		}
 		
+		if(Flags.PLAYER1_TO_CHOOSE){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			AppCore.getInstance().getPlayer1().chooseAdut(2);
+		}
+		if(Flags.HUMAN_TO_CHOOSE){
+			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
+																		//humanChosesAdut -> xClicked -> x.isPressed
+			}
+		}
+		
+		if(Flags.PLAYER2_TO_CHOOSE){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			AppCore.getInstance().getPlayer2().chooseAdut(3);
+		}
+		
+		if(Flags.PLAYER3_TO_CHOOSE){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			AppCore.getInstance().getPlayer3().chooseAdut(4);
+		}
+		
+		if(Flags.DEAL_32){
+			for(int i=24;i<32;	i++){
+				if(i%4 == 0){
+					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+				} else if(i%4 == 1){
+					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					rightCardNumber += 1;
+				} else if(i%4 == 2){
+					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					topCardNumber += 1;
+				} else{
+					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					leftCardNumber += 1;
+				}
+			}
+			AppCore.getInstance().getHumanPlayer().sortCards();
+		}
+		
 		flowControl();
+	}
+	
+	private void flowControl(){
+		
+		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
+			Flags.DEAL_24 = false;
+			
+			if(AppCore.getInstance().getFirstToPlay() == 1)
+				Flags.HUMAN_TO_CHOOSE = true;
+			else if(AppCore.getInstance().getFirstToPlay() == 2)
+				Flags.PLAYER1_TO_CHOOSE = true;
+			else if(AppCore.getInstance().getFirstToPlay() == 3)
+				Flags.PLAYER2_TO_CHOOSE = true;
+			else
+				Flags.PLAYER3_TO_CHOOSE = true;
+			
+		}
+		
+		else if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
+			Flags.DEAL_32 = false;
+			Flags.PLAYER3_TO_CHOOSE = false;
+			Flags.DECLARATIONS = true;
+		}
+		
+		else if(Flags.PLAYER3_TO_CHOOSE){
+			Flags.PLAYER3_TO_CHOOSE = false;
+		}
+		
+		else if(Flags.PLAYER2_TO_CHOOSE){
+			Flags.PLAYER2_TO_CHOOSE = false;
+			if(AppCore.adut == 0)
+				Flags.PLAYER3_TO_CHOOSE = true;
+		}
+		
+		else if(Flags.PLAYER1_TO_CHOOSE){
+			Flags.PLAYER1_TO_CHOOSE = false;
+			if(AppCore.adut == 0) {
+				Flags.PLAYER2_TO_CHOOSE = true;
+			}
+		}
 	}
 	
 	private void calibrateMouse(Input in){
@@ -197,10 +257,18 @@ public class MainState extends BasicGameState{
 		if(Flags.HUMAN_TO_CHOOSE){
 			drawHumanPickAdut(true, g);
 		}
+		
+		if(Flags.PLAYER1_TO_CHOOSE){
+			drawPlayersChoises(g);
+		}
+	}
+	
+	private void drawPlayersChoises(Graphics g){
+		g.drawString("LUUUUUUUD", 40, 40);
 	}
 	
 	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
-		pickAdutDialog.drawDialog(g, false);
+		pickAdutDialog.drawDialog(g);
 	}
 	
 	private void changeAdutCorner(Graphics g){
@@ -289,15 +357,4 @@ public class MainState extends BasicGameState{
 			g.drawImage(new Image(Flags.CARD_BACK_1_H),Flags.WINDOW_WIDTH/2 - Flags.CARD_BACK_H_WIDTH/2, 0);
 		}
 	}
-	
-	private void flowControl(){
-		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
-			Flags.DEAL_24 = false;
-			Flags.HUMAN_TO_CHOOSE = true;
-		}
-		if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
-			Flags.DEAL_32 = false;
-		}
-	}
-	
 }

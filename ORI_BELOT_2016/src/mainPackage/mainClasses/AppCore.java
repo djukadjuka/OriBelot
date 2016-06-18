@@ -14,14 +14,16 @@ import mainPackage.mainClasses.playerPackage.HumanPlayer;
 import mainPackage.mainClasses.supportPackage.Result;
 
 public class AppCore {
-	public static int adut = 0;
+	public static int adut = 0; // 1 - srce, 2 - tikva, 3 - list, 4 - zir
 	private static AppCore instance;
 	
-	private ArrayList<Card> cards;
+	private static ArrayList<Card> cards;
 	private ArrayList<Result> shuffleResults;
 	private Result fullResult;
 	private Result roundsWon;
-	private int nextToPlay = 1;
+	private int nextToPlay = 1; // human uvek igra prvi
+	private int firstToPlay = 1;
+	private int lastToPlay = 4;
 	private HumanPlayer hm = new HumanPlayer();
 	private BabicPlayer p1 = new BabicPlayer();
 	private BabicPlayer p2 = new BabicPlayer();
@@ -91,9 +93,24 @@ public class AppCore {
 		cards.add(new Card("Tikva K",4,Flags.TIKVA,14,new Image("Karte/TIKVA_K.jpg"),new Image("Karte/TIKVA_K.jpg")));
 		cards.add(new Card("Tikva A",11,Flags.TIKVA,15,new Image("Karte/TIKVA_A.jpg"),new Image("Karte/TIKVA_A.jpg")));
 	}
-	public void setAdut(int adut){
-		this.adut = adut;
-		for(Card karta : cards){
+	public static void setAdut(int a){
+		
+		if(a == adut)
+			return;
+		
+		for(Card karta : cards){ // da se vetka i unter starog aduta vrate na 0 i 2
+			if(adut == karta.getCardSuit()){
+				if(karta.getCardNumber() == 9){
+					karta.setCardValue(0);
+				}else if(karta.getCardNumber() == 12){
+					karta.setCardValue(2);
+				}
+			}
+		}
+		
+		adut = a;
+		
+		for(Card karta : cards){ // da se vrednosti novog aduta postave
 			
 			if(adut == karta.getCardSuit()){
 				if(karta.getCardNumber() == 9){
@@ -192,7 +209,30 @@ public class AppCore {
 	}
 	
 	public void declarations(){
-		
+	}
+	
+	public int getNextToPlay() {
+		return nextToPlay;
+	}
+	
+	public void setNextToPlay(int nextToPlay) {
+		this.nextToPlay = nextToPlay;
+	}
+	
+	public int getFirstToPlay() {
+		return firstToPlay;
+	}
+	
+	public void setFirstToPlay(int firstToPlay) {
+		this.firstToPlay = firstToPlay;
+	}
+	
+	public int getLastToPlay() {
+		return lastToPlay;
+	}
+	
+	public void setLastToPlay(int lastToPlay) {
+		this.lastToPlay = lastToPlay;
 	}
 	
 	public ArrayList<Card> getCards(){

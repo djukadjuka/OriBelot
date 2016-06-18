@@ -16,7 +16,7 @@ public class PickAdutDialog {
 	private PressableRectangle pickTikvaButton;
 	private PressableRectangle pickPassButton;
 	private PressableRectangle pickPassMussButton;
-	private boolean playerOnMuss;
+
 	public PickAdutDialog() throws SlickException{
 		pickAdutButton = new PressableRectangle(new Point(Flags.BTN_PICK_ADUT_TOPLEFT_X,Flags.BTN_PICK_ADUT_TOPLEFT_Y), 
                 new Point(Flags.BTN_PICK_ADUT_TOPRIGHT_X,Flags.BTN_PICK_ADUT_TOPRIGHT_Y), 
@@ -54,9 +54,8 @@ public class PickAdutDialog {
 				new Point(Flags.BTN_PASS_MUS_BOTTOMRIGHT_X,Flags.BTN_PASS_MUS_BOTTOMRIGHT_Y),
 				new Image(Flags.BTN_PASS_MUS_ICON));	
 	}
-	public void drawDialog(Graphics g,boolean onMuss){
-		playerOnMuss = onMuss;
-		if(onMuss){
+	public void drawDialog(Graphics g){
+		if(AppCore.getInstance().getLastToPlay() == 1){ // provera da li je na musu
 			pickAdutButton.drawThis(g);
 			pickZirButton.drawThis(g);
 			pickListButton.drawThis(g);
@@ -89,19 +88,29 @@ public class PickAdutDialog {
 	}
 	public boolean humanChosesAdut(int MOUSE_X,int MOUSE_Y){
 		if(zirClicked(MOUSE_X, MOUSE_Y)){
-			AppCore.adut = Flags.ZIR;
+			AppCore.setAdut(Flags.ZIR);
+			Flags.HUMAN_TO_CHOOSE = false;
+			Flags.DEAL_32 = true;
 			return true;
 		}else if(listClicked(MOUSE_X, MOUSE_Y)){
-			AppCore.adut = Flags.LIST;
+			AppCore.setAdut(Flags.LIST);
+			Flags.HUMAN_TO_CHOOSE = false;
+			Flags.DEAL_32 = true;
 			return true;
 		}else if(srceClicked(MOUSE_X,MOUSE_Y)){
-			AppCore.adut = Flags.SRCE;
+			AppCore.setAdut(Flags.SRCE);
+			Flags.DEAL_32 = true;
+			Flags.HUMAN_TO_CHOOSE = false;
 			return true;
 		}else if(tikvaClicked(MOUSE_X, MOUSE_Y)){
-			AppCore.adut = Flags.TIKVA;
+			AppCore.setAdut(Flags.TIKVA);
+			Flags.DEAL_32 = true;
+			Flags.HUMAN_TO_CHOOSE = false;
 			return true;
-		}else if(!playerOnMuss && passClicked(MOUSE_X, MOUSE_Y)){
-			AppCore.adut = 0;
+		}else if(!(AppCore.getInstance().getLastToPlay() == 1) && passClicked(MOUSE_X, MOUSE_Y)){
+			Flags.HUMAN_TO_CHOOSE = false;
+			//Flags.PLAYER1_TO_CHOOSE = true;
+			Flags.LUD = true;
 			return true;
 		}
 		return false;
