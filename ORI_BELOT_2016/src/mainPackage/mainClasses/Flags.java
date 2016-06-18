@@ -1,6 +1,38 @@
 package mainPackage.mainClasses;
 
 public class Flags {
+	//KO DELI
+	public static int ON_DEAL = 0;
+	
+	public static final int HUMAN_TO_DEAL = 1;
+	public static final int COMP_RIGHT_TO_DEAL = 2;
+	public static final int COMP_TOP_TO_DEAL = 3;
+	public static final int COMP_LEFT_TO_DEAL = 4;
+	//KO IGRA
+	public static int ON_PLAY = 0;
+	
+	public static final int HUMAN_ON_PLAY = 1;
+	public static final int COMP_RIGHT_ON_PLAY = 2;
+	public static final int COMP_TOP_ON_PLAY = 3;
+	public static final int COMP_LEFT_ON_PLAY = 4;
+	
+	//STANJA
+	public static boolean DEAL_24 = true;						// stanje u kojem se iscrtavaju 6 karata svakom igracu
+	public static boolean DEAL_32 = false;						// stanje u kojem se iscrtavaju jos 2 karte svakom igracu 
+	public static boolean HUMAN_TO_CHOOSE = false;				// stanje u kojem human bira aduta
+	public static boolean COMP_LEFT_TO_CHOOSE = false;
+	public static boolean COMP_TOP_TO_CHOOSE = false;
+	public static boolean COMP_RIGHT_TO_CHOOSE = false;
+	
+	public static boolean HUMAN_TO_PLAY = false;
+	public static boolean COMP_RIGHT_TO_PLAY = false;
+	public static boolean COMP_TOP_TO_PLAY = false;
+	public static boolean COMP_LEFT_TO_PLAY = false;
+	
+	public static boolean CALCULATE_CIRCLE_RESULT = false;		//kalkulisi rezultat jednog kruga
+	public static boolean CALCULATE_DECK_RESULT = false;		//kalkulisi rezultat jednog spila
+	public static boolean CALCULATE_ROUND_RESULT = false;		//kalkulisi rezultat preko 1001
+	
 	// BOJE KARATA
 	public static final int SRCE = 1;
 	public static final int TIKVA = 2;
@@ -48,8 +80,8 @@ public class Flags {
 	public static final String CHOSEN_ZIR_ADUT = "Ikonice/IzabraniAdut/ZIR_ADUT.jpg";
 	public static final String CHOSEN_NO_ADUT = "Ikonice/IzabraniAdut/NO_ADUT.jpg";
 	
-	public static final int CHOSEN_ADUT_ICON_WIDTH = 80;
-	public static final int CHOSEN_ADUT_ICON_HEIGHT = 80;
+	public static final int CHOSEN_ADUT_ICON_WIDTH = 65;
+	public static final int CHOSEN_ADUT_ICON_HEIGHT = 65;
 	
 	public static final int BTN_ICON_WIDTH = 35;
 	public static final int BTN_ICON_HEIGHT = 34;

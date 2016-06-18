@@ -39,10 +39,6 @@ public class MainState extends BasicGameState{
 	
 	boolean sec2 = false;
 	
-	public static boolean HUMAN_TO_CHOOSE = false;				// stanje u kojem human bira kartu
-	public static boolean DEAL_24 = true;						// stanje u kojem se iscrtavaju 6 karata svakom igracu
-	public static boolean DEAL_32 = false;						// stanje u kojem se iscrtavaju jos 2 karte svakom igracu 
-	
 	public MainState(int id) throws SlickException{
 		gameStateID = id;
 		secondCounter = new SecondCounter();
@@ -96,13 +92,13 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
-		if(HUMAN_TO_CHOOSE){
+		if(Flags.HUMAN_TO_CHOOSE){
 			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
 																		//humanChosesAdut -> xClicked -> x.isPressed
 			}
 		}
-		if(DEAL_32){
+		if(Flags.DEAL_32){
 			try{
 				Thread.sleep(300);
 			}catch(InterruptedException e){
@@ -125,7 +121,7 @@ public class MainState extends BasicGameState{
 			AppCore.getInstance().getHumanPlayer().sortCards();
 			AppCore.getInstance().declarations();
 		}
-		if(DEAL_24){
+		if(Flags.DEAL_24){
 			AppCore.getInstance().shuffleCards();
 			
 			for(int i=0; i < 24; i++){
@@ -160,17 +156,7 @@ public class MainState extends BasicGameState{
 	public int getID() {
 		return gameStateID;
 	}
-	
-	/**
-	 * Metoda koja konfigure koordinate misa.<br/>
-	 * Napisao posebno jer ce u update da se desavaju sokovi.<br/>
-	 * Pa cisto da izgleda lepse.
-	 * */
-	private void configureMouseXY(Input inp){
-		MOUSE_X = inp.getMouseX();
-		MOUSE_Y = inp.getMouseY();
-	}
-	
+
 	private void drawCards(Graphics g) throws SlickException{
 		int currentOffset = 0;
 //		for(int i=0;	i<8;	i++){
@@ -208,7 +194,7 @@ public class MainState extends BasicGameState{
 		drawTopCards(g);
 		changeAdutCorner(g);
 		
-		if(HUMAN_TO_CHOOSE){
+		if(Flags.HUMAN_TO_CHOOSE){
 			drawHumanPickAdut(true, g);
 		}
 	}
@@ -305,73 +291,13 @@ public class MainState extends BasicGameState{
 	}
 	
 	private void flowControl(){
-		if(DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
-			DEAL_24 = false;
-			HUMAN_TO_CHOOSE = true;
+		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
+			Flags.DEAL_24 = false;
+			Flags.HUMAN_TO_CHOOSE = true;
 		}
-		if(DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
-			DEAL_32 = false;
+		if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
+			Flags.DEAL_32 = false;
 		}
 	}
 	
 }
-
-/*if(HUMAN_TO_CHOOSE){
-	if(chooseAdut){
-		if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-			System.out.println("Mouse Clicked");
-			if(pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y)){
-				chooseAdut = false;
-				dealCards2 = true;
-			}
-		}
-	}
-	if(dealCards2){	
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for(int i=24; i < 32; i++){
-			if(i%4 == 0){
-				AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-			} else if(i%4 == 1){
-				AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				rightCardNumber += 1;
-			} else if(i%4 == 2){
-				AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				topCardNumber += 1;
-			} else{
-				AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				leftCardNumber += 1;
-			}
-		}
-		AppCore.getInstance().getHumanPlayer().sortCards();
-		AppCore.getInstance().declarations();
-		System.out.println("!");
-		dealCards2 = false;
-	}
-	if(dealCards1)
-	{
-		AppCore.getInstance().shuffleCards();
-
-		for(int i=0; i < 24; i++){
-			if(i%4 == 0){
-				AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-			} else if(i%4 == 1){
-				AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				rightCardNumber += 1;
-			} else if(i%4 == 2){
-				AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				topCardNumber += 1;
-			} else{
-				AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
-				leftCardNumber += 1;
-			}
-		}
-		chooseAdut = true;
-		dealCards1 = false;
-		AppCore.getInstance().getHumanPlayer().sortCards();
-	}
-}*/

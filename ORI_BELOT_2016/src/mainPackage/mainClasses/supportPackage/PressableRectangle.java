@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Point;
 
+import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
 
 /**
@@ -72,8 +73,8 @@ public class PressableRectangle {
 		    && MOUSE_Y < bottomLeft.getY()
 		    && MOUSE_Y > topLeft.getY()
 		    && MOUSE_Y > topRight.getY()){
-			MainState.HUMAN_TO_CHOOSE = false;			//ako je lik izabrao aduta ili je otisao dalje - ne moze vise da bira aduta
-			MainState.DEAL_32 = true;					//											   - sigurno mogu jos 8 karata da se podele
+			Flags.HUMAN_TO_CHOOSE = false;			//ako je lik izabrao aduta ili je otisao dalje - ne moze vise da bira aduta
+			Flags.DEAL_32 = true;					//											   - sigurno mogu jos 8 karata da se podele
 			return true;
 		}
 		return false;
