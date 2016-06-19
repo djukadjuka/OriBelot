@@ -90,6 +90,38 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
+//		
+		if(Flags.HUMAN_TO_CHOOSE){
+			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
+																		//humanChosesAdut -> xClicked -> x.isPressed
+			}
+		}
+//		if(Flags.DEAL_32){
+//			try{
+//				Thread.sleep(300);
+//			}catch(InterruptedException e){
+//				e.printStackTrace();
+//			}
+//			for(int i=24;i<32;	i++){
+//				if(i%4 == 0){
+//					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+//				} else if(i%4 == 1){
+//					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+//					rightCardNumber += 1;
+//				} else if(i%4 == 2){
+//					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+//					topCardNumber += 1;
+//				} else{
+//					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+//					leftCardNumber += 1;
+//				}
+//			}
+//			AppCore.getInstance().getHumanPlayer().sortCards();
+//			AppCore.getInstance().declarations();
+//		}
+
+		//
 		if(Flags.DEAL_24){
 			AppCore.getInstance().shuffleCards();
 			
@@ -118,12 +150,12 @@ public class MainState extends BasicGameState{
 			}
 			AppCore.getInstance().getPlayer1().chooseAdut(2);
 		}
-		if(Flags.HUMAN_TO_CHOOSE){
-			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
-																		//humanChosesAdut -> xClicked -> x.isPressed
-			}
-		}
+//		if(Flags.HUMAN_TO_CHOOSE){
+//			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+//				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
+//																		//humanChosesAdut -> xClicked -> x.isPressed
+//			}
+//		}
 		
 		if(Flags.PLAYER2_TO_CHOOSE){
 			try {
