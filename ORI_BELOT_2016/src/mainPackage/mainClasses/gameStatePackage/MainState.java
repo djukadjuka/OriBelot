@@ -100,7 +100,7 @@ public class MainState extends BasicGameState{
 		}
 		if(Flags.DEAL_32){
 			try{
-				Thread.sleep(300);
+				Thread.sleep(500);
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
