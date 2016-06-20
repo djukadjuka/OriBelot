@@ -19,6 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.sun.glass.ui.Window;
 
 import mainPackage.mainClasses.AppCore;
+import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.supportPackage.PickAdutDialog;
 import mainPackage.mainClasses.supportPackage.PressableRectangle;
@@ -289,6 +290,42 @@ public class MainState extends BasicGameState{
 			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
 		}
 	}
+	
+	private void drawDownCards(Graphics g){
+		if(!droppedCards.isEmpty()){
+			if(droppedCards.containsKey(Flags.HUMAN_ON_PLAY)){
+				droppedCards.get(Flags.HUMAN_ON_PLAY).getCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/2
+																		 ,Flags.WINDOW_HEIGHT/2 + Flags.CARD_HEIGHT/4);
+			}
+			if(droppedCards.containsKey(Flags.COMP_LEFT_ON_PLAY)){
+				droppedCards.get(Flags.COMP_LEFT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/4
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
+			}
+			if(droppedCards.containsKey(Flags.COMP_TOP_ON_PLAY)){
+				droppedCards.get(Flags.COMP_TOP_ON_PLAY).getCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/2
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/4);
+			}
+			if(droppedCards.containsKey(Flags.COMP_RIGHT_ON_PLAY)){
+				droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 + Flags.CARD_WIDTH/4
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
+			}
+		}
+	}
+	
+	private void dropSelectedCard(){
+		int currentOffset = 0;
+		for(int i = 0; i < AppCore.getInstance().getHumanPlayer().getCardNumber();i++){
+			PressableRectangle cardRec = new PressableRectangle(new Point(Flags.CARD_OFFSET_X+currentOffset,Flags.WINDOW_HEIGHT - Flags.CARD_HEIGHT - Flags.CARD_OFFSET_Y ), 
+					new Point(Flags.CARD_OFFSET_X + currentOffset + Flags.CARD_WIDTH,Flags.WINDOW_HEIGHT - Flags.CARD_HEIGHT - Flags.CARD_OFFSET_Y ),
+					new Point(Flags.CARD_OFFSET_X + currentOffset, Flags.WINDOW_HEIGHT), new Point(Flags.CARD_OFFSET_X + currentOffset + Flags.CARD_WIDTH, Flags.WINDOW_HEIGHT), AppCore.getInstance().getHumanPlayer().getCardAt(i).getCardImage());
+			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
+			if(cardRec.isPressed(MOUSE_X, MOUSE_Y)){
+				AppCore.getInstance().getHumanPlayer().playCard(i);
+				return;
+			}
+		}
+		
+	}
 
 	private void drawInterface(Graphics g) throws SlickException{
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
@@ -297,7 +334,7 @@ public class MainState extends BasicGameState{
 		drawRightCards(g);
 		drawTopCards(g);
 		changeAdutCorner(g);
-		
+		drawDownCards(g);
 		if(Flags.HUMAN_TO_CHOOSE){
 			drawHumanPickAdut(true, g);
 		}

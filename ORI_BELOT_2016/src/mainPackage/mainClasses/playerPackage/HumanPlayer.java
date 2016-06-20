@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
+import mainPackage.mainClasses.gameStatePackage.MainState;
 
 public class HumanPlayer {
 	private ArrayList<Card> playerCards;
@@ -82,8 +83,10 @@ public class HumanPlayer {
 		return playerCards.size();
 	}
 	
-	public void playCard(){
-		
+	public void playCard(int i){
+		MainState.droppedCards.put(Flags.HUMAN_ON_PLAY, this.playerCards.remove(i));
+		Flags.HUMAN_TO_DROP_CARD = false;
+		Flags.PLAYER1_TO_DROP_CARD = true;
 	}
 	
 	public void clearCards(){
