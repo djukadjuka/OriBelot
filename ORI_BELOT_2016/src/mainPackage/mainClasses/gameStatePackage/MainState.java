@@ -140,13 +140,13 @@ public class MainState extends BasicGameState{
 				if(i%4 == 0){
 					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 				} else if(i%4 == 1){
-					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getBabicPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					rightCardNumber += 1;
 				} else if(i%4 == 2){
-					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getDusicPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					topCardNumber += 1;
 				} else{
-					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getDjukaPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					leftCardNumber += 1;
 				}
 			}
@@ -159,7 +159,7 @@ public class MainState extends BasicGameState{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			AppCore.getInstance().getPlayer1().chooseAdut(2);
+			AppCore.getInstance().getBabicPlayer().chooseAdut(2);
 		}
 		
 		if(Flags.PLAYER2_TO_CHOOSE){
@@ -168,7 +168,7 @@ public class MainState extends BasicGameState{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			AppCore.getInstance().getPlayer2().chooseAdut(3);
+			AppCore.getInstance().getDusicPlayer().chooseAdut(3);
 		}
 		
 		if(Flags.PLAYER3_TO_CHOOSE){
@@ -177,7 +177,7 @@ public class MainState extends BasicGameState{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			AppCore.getInstance().getPlayer3().chooseAdut(4);
+			AppCore.getInstance().getDjukaPlayer().chooseAdut(4);
 		}
 		
 		if(Flags.DEAL_32){
@@ -185,13 +185,13 @@ public class MainState extends BasicGameState{
 				if(i%4 == 0){
 					AppCore.getInstance().getHumanPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 				} else if(i%4 == 1){
-					AppCore.getInstance().getPlayer1().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getBabicPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					rightCardNumber += 1;
 				} else if(i%4 == 2){
-					AppCore.getInstance().getPlayer2().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getDusicPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					topCardNumber += 1;
 				} else{
-					AppCore.getInstance().getPlayer3().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
+					AppCore.getInstance().getDjukaPlayer().dealCardToPlayer(AppCore.getInstance().getCards().get(i));
 					leftCardNumber += 1;
 				}
 			}

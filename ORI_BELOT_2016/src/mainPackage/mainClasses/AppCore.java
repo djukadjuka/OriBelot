@@ -10,6 +10,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import mainPackage.mainClasses.playerPackage.BabicPlayer;
+import mainPackage.mainClasses.playerPackage.DjukaPlayer;
+import mainPackage.mainClasses.playerPackage.DusicPlayer;
 import mainPackage.mainClasses.playerPackage.HumanPlayer;
 import mainPackage.mainClasses.playerPackage.Player;
 import mainPackage.mainClasses.supportPackage.Result;
@@ -27,9 +29,9 @@ public class AppCore {
 	private int firstToPlay = 1;
 	private int lastToPlay = 4;
 	private HumanPlayer hm = new HumanPlayer();
-	private BabicPlayer p1 = new BabicPlayer();
-	private BabicPlayer p2 = new BabicPlayer();
-	private BabicPlayer p3 = new BabicPlayer();
+	private BabicPlayer babic = new BabicPlayer();
+	private DusicPlayer dusic = new DusicPlayer();
+	private DjukaPlayer djuka = new DjukaPlayer();
 	
 	private AppCore(){
 		init();
@@ -134,11 +136,11 @@ public class AppCore {
 				if(i%4 == 0){
 					hm.dealCardToPlayer(cards.get(i));
 				} else if(i%4 == 1){
-					p1.dealCardToPlayer(cards.get(i));
+					babic.dealCardToPlayer(cards.get(i));
 				} else if(i%4 == 2){
-					p2.dealCardToPlayer(cards.get(i));
+					dusic.dealCardToPlayer(cards.get(i));
 				} else{
-					p3.dealCardToPlayer(cards.get(i));
+					djuka.dealCardToPlayer(cards.get(i));
 				}
 			}
 			
@@ -148,11 +150,11 @@ public class AppCore {
 				if(i%4 == 0){
 					hm.dealCardToPlayer(cards.get(i));
 				} else if(i%4 == 1){
-					p1.dealCardToPlayer(cards.get(i));
+					babic.dealCardToPlayer(cards.get(i));
 				} else if(i%4 == 2){
-					p2.dealCardToPlayer(cards.get(i));
+					dusic.dealCardToPlayer(cards.get(i));
 				} else{
-					p3.dealCardToPlayer( cards.get(i));
+					djuka.dealCardToPlayer( cards.get(i));
 				}
 			}
 			
@@ -201,16 +203,16 @@ public class AppCore {
 		return hm;
 	}
 	
-	public BabicPlayer getPlayer1(){
-		return p1;
+	public BabicPlayer getBabicPlayer(){
+		return babic;
 	}
 	
-	public BabicPlayer getPlayer2(){
-		return p2;
+	public DusicPlayer getDusicPlayer(){
+		return dusic;
 	}
 	
-	public BabicPlayer getPlayer3(){
-		return p3;
+	public DjukaPlayer getDjukaPlayer(){
+		return djuka;
 	}
 	
 	public void declarations(){
