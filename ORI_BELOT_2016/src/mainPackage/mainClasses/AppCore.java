@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 
 import mainPackage.mainClasses.playerPackage.BabicPlayer;
 import mainPackage.mainClasses.playerPackage.HumanPlayer;
+import mainPackage.mainClasses.playerPackage.Player;
 import mainPackage.mainClasses.supportPackage.Result;
 
 public class AppCore {
@@ -21,6 +22,7 @@ public class AppCore {
 	private ArrayList<Result> shuffleResults;
 	private Result fullResult;
 	private Result roundsWon;
+	private Player adutChoser; // !!!!!! OBAVEZNO ODRADITI
 	private int nextToPlay = 1; // human uvek igra prvi
 	private int firstToPlay = 1;
 	private int lastToPlay = 4;
@@ -162,19 +164,22 @@ public class AppCore {
 					
 					switch (nextToPlay) {
 					case 1: // human
-						hm.playCard();
+						Flags.HUMAN_TO_DROP_CARD = true;
 						nextToPlay = 2;
 						break;
 					case 2:
-						p1.playCard();
+						Flags.PLAYER1_TO_DROP_CARD = true;
+						//p1.playCard();
 						nextToPlay = 3;
 						break;
 					case 3:
-						p2.playCard();
+						Flags.PLAYER1_TO_DROP_CARD = true;
+						//p2.playCard();
 						nextToPlay = 4;
 						break;
 					case 4:
-						p3.playCard();
+						Flags.PLAYER3_TO_DROP_CARD = true;
+						//p3.playCard();
 						nextToPlay = 1;
 						break;
 					default:

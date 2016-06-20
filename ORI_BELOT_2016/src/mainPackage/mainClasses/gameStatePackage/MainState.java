@@ -1,5 +1,8 @@
 package mainPackage.mainClasses.gameStatePackage;
 
+import java.util.HashMap;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 import java.awt.Font;
 
 import org.newdawn.slick.GameContainer;
@@ -38,6 +41,7 @@ public class MainState extends BasicGameState{
 	private Image backgroundImage;
 	
 	//STATICKE
+	public static HashMap<Integer, Card> droppedCards = new HashMap<>();
 	public static SecondCounter secondCounter;
 	public static int MOUSE_X;
 	public static int MOUSE_Y;
@@ -113,6 +117,14 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
+		
+		if(Flags.HUMAN_TO_DROP_CARD){
+			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				dropSelectedCard();
+			}
+		}
+		
+		
 		if(Flags.HUMAN_TO_CHOOSE){
 			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
@@ -148,6 +160,7 @@ public class MainState extends BasicGameState{
 			}
 			AppCore.getInstance().getPlayer1().chooseAdut(2);
 		}
+		
 		if(Flags.PLAYER2_TO_CHOOSE){
 			try {
 				Thread.sleep(2000);
@@ -184,15 +197,27 @@ public class MainState extends BasicGameState{
 			AppCore.getInstance().getHumanPlayer().sortCards();
 		}
 		
+		if(Flags.DECLARATIONS){
+			
+		}
+		
 		flowControl();
 	}
 	
 	private void flowControl(){
 		
-		if(Flags.LUD){
-			Flags.LUD = false;
+		if(Flags.DIALOG_PRESTEP){
+			Flags.DIALOG_PRESTEP = false;
 			Flags.PLAYER1_TO_CHOOSE = true;
 			return;
+		}
+		
+		if(Flags.DECLARATIONS)
+			Flags.DECLARATIONS = false;
+		
+		if(Flags.DECLARATION_PRESTEP) {
+			Flags.DECLARATION_PRESTEP = false;
+			Flags.DECLARATIONS = true;
 		}
 		
 		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
@@ -211,12 +236,20 @@ public class MainState extends BasicGameState{
 		
 		else if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
 			Flags.DEAL_32 = false;
+			
+			Flags.PLAYER1_TO_CHOOSE = false;
+			Flags.PLAYER2_TO_CHOOSE = false;
 			Flags.PLAYER3_TO_CHOOSE = false;
-			Flags.DECLARATIONS = true;
+			Flags.HUMAN_TO_CHOOSE = false;
+			
+			Flags.HUMAN_TO_DROP_CARD = true;
+			Flags.DECLARATION_PRESTEP = true;
 		}
 		
 		else if(Flags.PLAYER3_TO_CHOOSE){
 			Flags.PLAYER3_TO_CHOOSE = false;
+			if(AppCore.adut == 0)
+				Flags.HUMAN_TO_CHOOSE = true;
 		}
 		
 		else if(Flags.PLAYER2_TO_CHOOSE){
@@ -273,49 +306,43 @@ public class MainState extends BasicGameState{
 			drawPlayersPicking(g,1);
 		}
 		
-//		if(Flags.PLAYER2_TO_CHOOSE){
-//			drawPlayersPicking(g, 2);
-//		}
-//		
-//		if(Flags.PLAYER3_TO_CHOOSE){
-//			drawPlayersPicking(g, 3);
-//		}
-		
-		if(Flags.PLAYER1_CHOISE){
-			Flags.PLAYER1_CHOISE = false;
-			try {
-				drawPlayersChoise(g,1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		if(Flags.PLAYER2_TO_CHOOSE){
+			drawPlayersPicking(g, 2);
 		}
 		
-//		if(Flags.PLAYER2_CHOISE){
-//			Flags.PLAYER2_CHOISE = false;
-//			try {
-//				drawPlayersChoise(g,2);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		
-//		if(Flags.PLAYER3_CHOISE){
-//			Flags.PLAYER3_CHOISE = false;
-//			try {
-//				drawPlayersChoise(g,3);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if(Flags.PLAYER3_TO_CHOOSE){
+			drawPlayersPicking(g, 3);
+		}
+		
+		if(Flags.DECLARATIONS || Flags.DECLARATION_PRESTEP){
+			drawPlayerChooseAdut(g);
+		}
+	}
+	
+	private void drawPlayerChooseAdut(Graphics g){
+		// PROMENITI DA PISE KO JE JAVIO
+		String adut = "";
+		
+		if(AppCore.adut == Flags.SRCE)
+			adut = "harts";
+		else if(AppCore.adut == Flags.TIKVA)
+			adut = "pumpkins";
+		else if(AppCore.adut == Flags.ZIR)
+			adut = "clubs";
+		else
+			adut = "spades";
+		
+		ufont.drawString(Flags.WINDOW_WIDTH/2-160, Flags.WINDOW_HEIGHT/2 - 40, "Adut is " + adut);
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void drawPlayersPicking(Graphics g,int player){
 		ufont.drawString(Flags.WINDOW_WIDTH/2 - 220, Flags.WINDOW_HEIGHT/2 - 40, "Player" + player + " to choose adut");
-	}
-	
-	private void drawPlayersChoise(Graphics g,int player) throws InterruptedException{
-		ufont.drawString(Flags.WINDOW_WIDTH/2 - 220, Flags.WINDOW_HEIGHT/2 - 40, player1Choise);
-		Thread.sleep(1000);
 	}
 	
 	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
