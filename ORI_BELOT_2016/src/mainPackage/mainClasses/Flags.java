@@ -8,6 +8,15 @@ public class Flags {
 	public static final int COMP_RIGHT_TO_DEAL = 2;
 	public static final int COMP_TOP_TO_DEAL = 3;
 	public static final int COMP_LEFT_TO_DEAL = 4;
+	
+	
+	//IGRACI
+	public static boolean HUMAN_TO_DROP_CARD = false;
+	public static boolean PLAYER1_TO_DROP_CARD = false;
+	public static boolean PLAYER2_TO_DROP_CARD = false;
+	public static boolean PLAYER3_TO_DROP_CARD = false;
+	
+	
 	//KO IGRA
 	public static int ON_PLAY = 0;
 	

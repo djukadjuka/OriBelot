@@ -1,5 +1,9 @@
 package mainPackage.mainClasses.gameStatePackage;
 
+import java.util.HashMap;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,6 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import mainPackage.mainClasses.AppCore;
+import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.supportPackage.PickAdutDialog;
 import mainPackage.mainClasses.supportPackage.PressableRectangle;
@@ -32,6 +37,7 @@ public class MainState extends BasicGameState{
 	private Image backgroundImage;
 	
 	//STATICKE
+	public static HashMap<Integer, Card> droppedCards = new HashMap<>();
 	public static SecondCounter secondCounter;
 	public static int MOUSE_X;
 	public static int MOUSE_Y;
@@ -89,6 +95,14 @@ public class MainState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame sbg, int DELTA) throws SlickException {
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
+		
+		
+		if(Flags.HUMAN_TO_DROP_CARD){
+			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				dropSelectedCard();
+			}
+		}
+		
 		
 //		
 		if(Flags.HUMAN_TO_CHOOSE){
@@ -216,6 +230,7 @@ public class MainState extends BasicGameState{
 			Flags.DEAL_32 = false;
 			Flags.PLAYER3_TO_CHOOSE = false;
 			Flags.DECLARATIONS = true;
+			Flags.HUMAN_TO_DROP_CARD = true;
 		}
 		
 		else if(Flags.PLAYER3_TO_CHOOSE){
@@ -277,6 +292,42 @@ public class MainState extends BasicGameState{
 			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
 		}
 	}
+	
+	private void drawDownCards(Graphics g){
+		if(!droppedCards.isEmpty()){
+			if(droppedCards.containsKey(Flags.HUMAN_ON_PLAY)){
+				droppedCards.get(Flags.HUMAN_ON_PLAY).getCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/2
+																		 ,Flags.WINDOW_HEIGHT/2 + Flags.CARD_HEIGHT/4);
+			}
+			if(droppedCards.containsKey(Flags.COMP_LEFT_ON_PLAY)){
+				droppedCards.get(Flags.COMP_LEFT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/4
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
+			}
+			if(droppedCards.containsKey(Flags.COMP_TOP_ON_PLAY)){
+				droppedCards.get(Flags.COMP_TOP_ON_PLAY).getCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/2
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/4);
+			}
+			if(droppedCards.containsKey(Flags.COMP_RIGHT_ON_PLAY)){
+				droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 + Flags.CARD_WIDTH/4
+																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
+			}
+		}
+	}
+	
+	private void dropSelectedCard(){
+		int currentOffset = 0;
+		for(int i = 0; i < AppCore.getInstance().getHumanPlayer().getCardNumber();i++){
+			PressableRectangle cardRec = new PressableRectangle(new Point(Flags.CARD_OFFSET_X+currentOffset,Flags.WINDOW_HEIGHT - Flags.CARD_HEIGHT - Flags.CARD_OFFSET_Y ), 
+					new Point(Flags.CARD_OFFSET_X + currentOffset + Flags.CARD_WIDTH,Flags.WINDOW_HEIGHT - Flags.CARD_HEIGHT - Flags.CARD_OFFSET_Y ),
+					new Point(Flags.CARD_OFFSET_X + currentOffset, Flags.WINDOW_HEIGHT), new Point(Flags.CARD_OFFSET_X + currentOffset + Flags.CARD_WIDTH, Flags.WINDOW_HEIGHT), AppCore.getInstance().getHumanPlayer().getCardAt(i).getCardImage());
+			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
+			if(cardRec.isPressed(MOUSE_X, MOUSE_Y)){
+				AppCore.getInstance().getHumanPlayer().playCard(i);
+				return;
+			}
+		}
+		
+	}
 
 	private void drawInterface(Graphics g) throws SlickException{
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
@@ -285,7 +336,7 @@ public class MainState extends BasicGameState{
 		drawRightCards(g);
 		drawTopCards(g);
 		changeAdutCorner(g);
-		
+		drawDownCards(g);
 		if(Flags.HUMAN_TO_CHOOSE){
 			drawHumanPickAdut(true, g);
 		}

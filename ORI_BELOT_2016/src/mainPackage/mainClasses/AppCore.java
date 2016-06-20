@@ -162,19 +162,22 @@ public class AppCore {
 					
 					switch (nextToPlay) {
 					case 1: // human
-						hm.playCard();
+						Flags.HUMAN_TO_DROP_CARD = true;
 						nextToPlay = 2;
 						break;
 					case 2:
-						p1.playCard();
+						Flags.PLAYER1_TO_DROP_CARD = true;
+						//p1.playCard();
 						nextToPlay = 3;
 						break;
 					case 3:
-						p2.playCard();
+						Flags.PLAYER1_TO_DROP_CARD = true;
+						//p2.playCard();
 						nextToPlay = 4;
 						break;
 					case 4:
-						p3.playCard();
+						Flags.PLAYER3_TO_DROP_CARD = true;
+						//p3.playCard();
 						nextToPlay = 1;
 						break;
 					default:
