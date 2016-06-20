@@ -20,9 +20,11 @@ public class Flags {
 	public static boolean DEAL_24 = true;						// stanje u kojem se iscrtavaju 6 karata svakom igracu
 	public static boolean DEAL_32 = false;						// stanje u kojem se iscrtavaju jos 2 karte svakom igracu 
 	public static boolean HUMAN_TO_CHOOSE = false;				// stanje u kojem human bira aduta
-	public static boolean COMP_LEFT_TO_CHOOSE = false;
-	public static boolean COMP_TOP_TO_CHOOSE = false;
-	public static boolean COMP_RIGHT_TO_CHOOSE = false;
+	public static boolean PLAYER1_TO_CHOOSE = false;			// nisam video ove tvoje ispod..
+	public static boolean PLAYER2_TO_CHOOSE = false;
+	public static boolean PLAYER3_TO_CHOOSE = false;
+	public static boolean DECLARATIONS = false;
+	public static boolean LUD = false;
 	
 	public static boolean HUMAN_TO_PLAY = false;
 	public static boolean COMP_RIGHT_TO_PLAY = false;
@@ -69,6 +71,48 @@ public class Flags {
 	public static final String CARD_BACK_7_V = "OkrenuteKarte/VERTIKALNO_7.jpg";
 	public static final String CARD_BACK_8_V = "OkrenuteKarte/VERTIKALNO_8.jpg";
 	
+	//WELCOME STATE BUTTONS
+	public static final int BTN_PLAY_GAME_WIDTH = 250;
+	public static final int BTN_PLAY_GAME_HEIGHT = 35;
+	public static final int BTN_QUIT_GAME_WIDTH = 250;
+	public static final int BTN_QUIT_GAME_HEIGHT = 35;
+	
+	//PLAY BUTTON
+	public static final int BTN_PLAY_GAME_TOPLEFT_X = 305;
+	public static final int BTN_PLAY_GAME_TOPLEFT_Y = 330;
+	
+	public static final int BTN_PLAY_GAME_TOPRIGHT_X = 555;
+	public static final int BTN_PLAY_GAME_TOPRIGHT_Y = 330;
+	
+	public static final int BTN_PLAY_GAME_BOTTOMLEFT_X = 305;
+	public static final int BTN_PLAY_GAME_BOTTOMLEFT_Y = 365;
+	
+	public static final int BTN_PLAY_GAME_BOTTOMRIGHT_X = 555;
+	public static final int BTN_PLAY_GAME_BOTTOMRIGHT_Y = 365;
+	//GOTOV PLAY BUTTON
+	
+	//QUIT BUTTON
+		public static final int BTN_QUIT_GAME_TOPLEFT_X = 305;
+		public static final int BTN_QUIT_GAME_TOPLEFT_Y = 380;
+		
+		public static final int BTN_QUIT_GAME_TOPRIGHT_X = 555;
+		public static final int BTN_QUIT_GAME_TOPRIGHT_Y = 380;
+		
+		public static final int BTN_QUIT_GAME_BOTTOMLEFT_X = 305;
+		public static final int BTN_QUIT_GAME_BOTTOMLEFT_Y = 415;
+		
+		public static final int BTN_QUIT_GAME_BOTTOMRIGHT_X = 555;
+		public static final int BTN_QUIT_GAME_BOTTOMRIGHT_Y = 415;
+	//GOTOV QUIT BUTTON
+	
+	
+	//GOTOV WELCOME STATE BUTTONS
+	
+	//WELCOME STATE IMAGES
+	public static final String START_GAME_BUTTON = "WelcomeStateDugmici/welcomeStart.png";
+	public static final String QUIT_GAME_BUTTON = "WelcomeStateDugmici/welcomeQuit.png";
+	public static final String WELCOME_BACKGROUND = "WelcomeStateDugmici/welcomeBackground.png";	
+	//GOTOV WELCOME STATE IMAGES
 	public static final int CARD_BACK_H_WIDTH = 153;
 	public static final int CARD_BACK_H_HEIGHT = 120;
 	public static final int CARD_BACK_V_WIDTH = 120;

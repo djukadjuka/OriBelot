@@ -73,8 +73,24 @@ public class PressableRectangle {
 		    && MOUSE_Y < bottomLeft.getY()
 		    && MOUSE_Y > topLeft.getY()
 		    && MOUSE_Y > topRight.getY()){
-			Flags.HUMAN_TO_CHOOSE = false;			//ako je lik izabrao aduta ili je otisao dalje - ne moze vise da bira aduta
-			Flags.DEAL_32 = true;					//											   - sigurno mogu jos 8 karata da se podele
+//			Flags.HUMAN_TO_CHOOSE = false;			//ako je lik izabrao aduta ili je otisao dalje - ne moze vise da bira aduta
+//			Flags.DEAL_32 = true;					//											   - sigurno mogu jos 8 karata da se podele
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public boolean isPressedPQ(int MOUSE_X,int MOUSE_Y){
+		if(    MOUSE_X < topRight.getX()
+			&& MOUSE_X < bottomRight.getX()
+			&& MOUSE_X > topLeft.getX()
+		    && MOUSE_X > bottomLeft.getX()
+		    
+		    && MOUSE_Y < bottomRight.getY()
+		    && MOUSE_Y < bottomLeft.getY()
+		    && MOUSE_Y > topLeft.getY()
+		    && MOUSE_Y > topRight.getY()){
 			return true;
 		}
 		return false;

@@ -7,14 +7,17 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
+import mainPackage.mainClasses.gameStatePackage.WelcomeState;
 
 public class MainClass extends StateBasedGame{
 	
 	private static final String GAME_NAME = "Belot ORI 2016";
-	private static final int MENU = 1;
+	public static final int MENU = 1;
+	public static final int WELCOME = 0;
 	
 	public MainClass(String name) throws SlickException {
 		super(name);
+		this.addState(new WelcomeState(WELCOME));
 		this.addState(new MainState(MENU));
 	}
 	
@@ -34,7 +37,8 @@ public class MainClass extends StateBasedGame{
 	}
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		this.getState(WELCOME).init(gc, this);
 		this.getState(MENU).init(gc, this);
-		this.enterState(MENU);
+		this.enterState(WELCOME);
 	}
 }
