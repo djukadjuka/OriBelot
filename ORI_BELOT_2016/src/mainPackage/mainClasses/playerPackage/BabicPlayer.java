@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
+import mainPackage.mainClasses.gameStatePackage.MainState;
 
 public class BabicPlayer implements Player{
 
@@ -44,9 +45,24 @@ public class BabicPlayer implements Player{
 			AppCore.adut = Flags.SRCE;
 			Flags.DEAL_32 = true;
 			System.out.println("Player " + (trenutniPlayer - 1) + " javio srce");
+			if(trenutniPlayer - 1 == 1)
+				MainState.player1Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
+			else if(trenutniPlayer - 1 == 2)
+				MainState.player2Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
+			else
+				MainState.player3Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
 		} else{
-			System.out.println("Player " + (trenutniPlayer - 1) + " rekao dalje");
+			System.out.println("Player " + (trenutniPlayer - 1) + " has passed");
+			
+			if(trenutniPlayer - 1 == 1)
+				MainState.player1Choise = "Player " + (trenutniPlayer - 1) + "has passed";
+			else if(trenutniPlayer - 1 == 2)
+				MainState.player2Choise = "Player " + (trenutniPlayer - 1) + "has passed";
+			else
+				MainState.player3Choise = "Player " + (trenutniPlayer - 1) + "has passed";
 		}
+		
+		Flags.PLAYER1_CHOISE = true;
 	}
 	
 	public void makePlayableCards(Card card,int AdutColor){

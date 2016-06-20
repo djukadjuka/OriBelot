@@ -109,8 +109,7 @@ public class PickAdutDialog {
 			return true;
 		}else if(!(AppCore.getInstance().getLastToPlay() == 1) && passClicked(MOUSE_X, MOUSE_Y)){
 			Flags.HUMAN_TO_CHOOSE = false;
-			Flags.PLAYER1_TO_CHOOSE = true;
-			//Flags.LUD = true;
+			Flags.LUD = true;
 			return true;
 		}
 		return false;
