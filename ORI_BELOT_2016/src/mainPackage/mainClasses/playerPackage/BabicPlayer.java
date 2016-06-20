@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
+import mainPackage.mainClasses.gameStatePackage.MainState;
 
 public class BabicPlayer implements Player{
 
@@ -40,13 +41,55 @@ public class BabicPlayer implements Player{
 	// izvuci u interface
 	public void chooseAdut(int trenutniPlayer){ // posto su sad svi playeri instanca iste klase
 												// salje se ovaj int ali to ce nestati
+		int theAdut = 0;
+		for(Card c : playerCards){
+			if(c.getCardNumber() == 12){
+				theAdut = c.getCardSuit();
+			}
+		}
 		if(AppCore.getInstance().getLastToPlay() == trenutniPlayer) {
 			AppCore.adut = Flags.SRCE;
 			Flags.DEAL_32 = true;
 			System.out.println("Player " + (trenutniPlayer - 1) + " javio srce");
+			if(trenutniPlayer - 1 == 1)
+				MainState.player1Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
+			else if(trenutniPlayer - 1 == 2)
+				MainState.player2Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
+			else
+				MainState.player3Choise = "Player " + (trenutniPlayer - 1) + " chooses harts";
 		} else{
-			System.out.println("Player " + (trenutniPlayer - 1) + " rekao dalje");
+			if(theAdut == 0){
+				System.out.println("Player " + (trenutniPlayer - 1) + " has passed");
+				if(trenutniPlayer - 1 == 1)
+					MainState.player1Choise = "Player " + (trenutniPlayer - 1) + "has passed";
+				else if(trenutniPlayer - 1 == 2)
+					MainState.player2Choise = "Player " + (trenutniPlayer - 1) + "has passed";
+				else
+					MainState.player3Choise = "Player " + (trenutniPlayer - 1) + "has passed";
+			}else{
+				AppCore.adut = theAdut;
+				Flags.DEAL_32 = true;
+				String sysoString;
+				if(theAdut == Flags.SRCE){
+					sysoString = "SRCE";
+				}else if(theAdut == Flags.LIST){
+					sysoString = "LIST";
+				}else if(theAdut == Flags.TIKVA){
+					sysoString = "TIKVA";
+				}else{
+					sysoString = "ZIR";
+				}
+				System.out.println("Player " + (trenutniPlayer - 1) + " javio " + sysoString);
+				if(trenutniPlayer - 1 == 1)
+					MainState.player1Choise = "Player " + (trenutniPlayer - 1) + " chooses " + sysoString;
+				else if(trenutniPlayer - 1 == 2)
+					MainState.player2Choise = "Player " + (trenutniPlayer - 1) + " chooses " + sysoString;
+				else
+					MainState.player3Choise = "Player " + (trenutniPlayer - 1) + " chooses " + sysoString;
+			}
 		}
+		
+		Flags.PLAYER1_CHOISE = true;
 	}
 	
 	public void makePlayableCards(Card card,int AdutColor){

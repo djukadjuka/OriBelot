@@ -33,7 +33,10 @@ public class Flags {
 	public static boolean PLAYER2_TO_CHOOSE = false;
 	public static boolean PLAYER3_TO_CHOOSE = false;
 	public static boolean DECLARATIONS = false;
-	public static boolean LUD = false;
+	public static boolean LUD = false;							// za onu siptariju sa dijalogom
+	public static boolean PLAYER1_CHOISE = false;
+	public static boolean PLAYER2_CHOISE = false;
+	public static boolean PLAYER3_CHOISE = false;
 	
 	public static boolean HUMAN_TO_PLAY = false;
 	public static boolean COMP_RIGHT_TO_PLAY = false;
