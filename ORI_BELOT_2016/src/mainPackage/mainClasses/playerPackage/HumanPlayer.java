@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
@@ -85,8 +86,14 @@ public class HumanPlayer {
 	
 	public void playCard(int i){
 		MainState.droppedCards.put(Flags.HUMAN_ON_PLAY, this.playerCards.remove(i));
-		Flags.HUMAN_TO_DROP_CARD = false;
-		Flags.PLAYER1_TO_DROP_CARD = true;
+		if(AppCore.getInstance().getLastToPlay() == AppCore.getInstance().getNextToPlay()){
+			Flags.ONE_CIRCLE_PHASE = false;
+		}else{
+			AppCore.getInstance().setNextToPlay(Flags.COMP_RIGHT_ON_PLAY);
+		}
+		if(AppCore.getInstance().getFirstToPlay() == Flags.HUMAN_ON_PLAY){
+			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.HUMAN_ON_PLAY).getCardSuit());
+		}
 	}
 	
 	public void clearCards(){
@@ -101,7 +108,6 @@ public class HumanPlayer {
 
 		@Override
 		public int compare(Card o1, Card o2) {
-			// TODO Auto-generated method stub
 			return o1.getCardNumber() - o2.getCardNumber();
 		}
 		

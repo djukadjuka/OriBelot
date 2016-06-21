@@ -9,7 +9,6 @@ public class Flags {
 	public static final int COMP_TOP_TO_DEAL = 3;
 	public static final int COMP_LEFT_TO_DEAL = 4;
 	
-	
 	//IGRACI
 	public static boolean HUMAN_TO_DROP_CARD = false;
 	public static boolean PLAYER1_TO_DROP_CARD = false;
@@ -35,7 +34,10 @@ public class Flags {
 	public static boolean DECLARATIONS = false;
 	public static boolean DIALOG_PRESTEP = false;							// za onu siptariju sa dijalogom
 	public static boolean DECLARATION_PRESTEP = false;						// za siptariju sa ispisom aduta
-
+	public static boolean PLAY_PHASE_CONFIG_FIRST = false;
+	public static boolean ONE_CIRCLE_PHASE = false;
+	public static boolean CLEAR_CARDS_ON_TABLE_PHASE = false;
+	
 	public static boolean HUMAN_TO_PLAY = false;
 	public static boolean COMP_RIGHT_TO_PLAY = false;
 	public static boolean COMP_TOP_TO_PLAY = false;

@@ -125,11 +125,51 @@ public class BabicPlayer implements Player{
 	public void clearCards(){
 		playerCards.clear();
 	}
-	
+	public ArrayList<Card> generateLegalCards(){
+		ArrayList<Card> legal = new ArrayList<Card>();
+		for(Card theCard : playerCards){
+			if(theCard.getCardSuit() == AppCore.getInstance().getColordDown())
+				legal.add(theCard);
+		}
+		if(!legal.isEmpty())
+			return legal;
+		
+		for(Card theCard : playerCards){
+			if(theCard.getCardSuit() == AppCore.adut)
+				legal.add(theCard);
+		}
+		if(!legal.isEmpty())
+			return legal;
+		
+		for(Card theCard : playerCards){
+			legal.add(theCard);
+		}
+		
+		return legal;
+	}
 	@Override
 	public void playCard() {
-		// TODO Auto-generated method stub
+		ArrayList<Card> legalCards = generateLegalCards();
 		
+		MainState.droppedCards.put(Flags.COMP_RIGHT_ON_PLAY, legalCards.remove(0));
+		Card targetCard = MainState.droppedCards.get(Flags.COMP_RIGHT_ON_PLAY);
+		
+		for(int i=0;	i<playerCards.size();	i++){
+			if(playerCards.get(i).getCardSuit() == targetCard.getCardSuit() &&
+				playerCards.get(i).getCardNumber() == targetCard.getCardNumber()	){
+				playerCards.remove(i);
+				break;
+			}
+		}		
+		MainState.rightCardNumber--;
+		if(AppCore.getInstance().getLastToPlay() == AppCore.getInstance().getNextToPlay()){
+			Flags.ONE_CIRCLE_PHASE = false;
+		}else{
+			AppCore.getInstance().setNextToPlay(Flags.COMP_TOP_ON_PLAY);
+		}
+		if(AppCore.getInstance().getFirstToPlay() == Flags.COMP_RIGHT_ON_PLAY){
+			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getCardSuit());
+		}
 	}
 
 }

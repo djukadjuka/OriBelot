@@ -33,6 +33,18 @@ public class AppCore {
 	private DusicPlayer dusic = new DusicPlayer();
 	private DjukaPlayer djuka = new DjukaPlayer();
 	
+	private int colorDown;
+	
+	public void configureFirstPlayer(){
+		
+	}
+	
+	public int getColordDown(){
+		return colorDown;
+	}
+	public void setColorDown(int col){
+		colorDown = col;
+	}
 	private AppCore(){
 		init();
 	}

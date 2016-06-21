@@ -41,6 +41,8 @@ public class MainState extends BasicGameState{
 	//SLIKE
 	private Image backgroundImage;
 	
+	
+	
 	//STATICKE
 	public static HashMap<Integer, Card> droppedCards = new HashMap<>();
 	public static SecondCounter secondCounter;
@@ -118,13 +120,28 @@ public class MainState extends BasicGameState{
 		Input inp = gc.getInput();	//uzmi sav trenutni input
 		calibrateMouse(inp);		//namesti koordinate misa
 		
-		
-		if(Flags.HUMAN_TO_DROP_CARD){
-			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				dropSelectedCard();
+		if(Flags.ONE_CIRCLE_PHASE){
+			switch(AppCore.getInstance().getNextToPlay()){
+				case Flags.HUMAN_ON_PLAY:{
+					if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+						dropSelectedCard();
+					}
+					break;
+				}
+				case Flags.COMP_RIGHT_ON_PLAY :{
+					AppCore.getInstance().getBabicPlayer().playCard();
+					break;
+				}
+				case Flags.COMP_TOP_ON_PLAY:{
+					AppCore.getInstance().getDusicPlayer().playCard();
+					break;
+				}
+				case Flags.COMP_LEFT_ON_PLAY:{
+					AppCore.getInstance().getDjukaPlayer().playCard();
+					break;
+				}
 			}
 		}
-		
 		
 		if(Flags.HUMAN_TO_CHOOSE){
 			if(inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
@@ -204,7 +221,7 @@ public class MainState extends BasicGameState{
 		
 		flowControl();
 	}
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void flowControl(){
 		
 		if(Flags.DIALOG_PRESTEP){
@@ -213,8 +230,64 @@ public class MainState extends BasicGameState{
 			return;
 		}
 		
-		if(Flags.DECLARATIONS)
+		if(Flags.CALCULATE_DECK_RESULT){
+			System.out.println("Sace malo da mu ga da....");
+		}
+		
+		if(Flags.CALCULATE_CIRCLE_RESULT){
+			System.out.println("Neki rezultataatatata");
+			Flags.CALCULATE_CIRCLE_RESULT = false;
+			if(AppCore.getInstance().getBabicPlayer().getCardNumber() == 0 &&
+				   AppCore.getInstance().getDjukaPlayer().getCardNumber() == 0 &&
+				   AppCore.getInstance().getDusicPlayer().getCardNumber() == 0 &&
+				   AppCore.getInstance().getHumanPlayer().getCardNumber() == 0
+				){
+					System.out.println("CEO KRUG AAAAA");
+					Flags.CALCULATE_DECK_RESULT = true;
+			}else{
+				Flags.ONE_CIRCLE_PHASE = true;
+			}
+		}
+		if(Flags.CLEAR_CARDS_ON_TABLE_PHASE){
+			Flags.CALCULATE_CIRCLE_RESULT = true;
+			AppCore.getInstance().configureFirstPlayer();
+			Flags.CLEAR_CARDS_ON_TABLE_PHASE = false;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			droppedCards.clear();
+		}
+		
+		if(Flags.ONE_CIRCLE_PHASE){
+			if(droppedCards.size()==4){
+				Flags.ONE_CIRCLE_PHASE = false;
+				Flags.CLEAR_CARDS_ON_TABLE_PHASE = true;
+			}
+		}
+		
+		if(Flags.PLAY_PHASE_CONFIG_FIRST){
+			int ftp = 0;
+			int ltp = 0;
+			if(Flags.ON_DEAL+1 == 5){
+				ftp = 1;
+				ltp = 4;
+			}else{
+				ftp = Flags.ON_DEAL+1;
+				ltp = Flags.ON_DEAL;
+			}
+			AppCore.getInstance().setFirstToPlay(ftp);
+			AppCore.getInstance().setNextToPlay(ftp);
+			AppCore.getInstance().setLastToPlay(ltp);
+			Flags.PLAY_PHASE_CONFIG_FIRST = false;
+			Flags.ONE_CIRCLE_PHASE = true;
+		}
+		
+		if(Flags.DECLARATIONS){
 			Flags.DECLARATIONS = false;
+			Flags.PLAY_PHASE_CONFIG_FIRST = true;
+		}
 		
 		if(Flags.DECLARATION_PRESTEP) {
 			Flags.DECLARATION_PRESTEP = false;
@@ -232,7 +305,6 @@ public class MainState extends BasicGameState{
 				Flags.PLAYER2_TO_CHOOSE = true;
 			else
 				Flags.PLAYER3_TO_CHOOSE = true;
-			
 		}
 		
 		else if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
@@ -266,7 +338,7 @@ public class MainState extends BasicGameState{
 			}
 		}
 	}
-	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	private void calibrateMouse(Input in){
 		MOUSE_X = in.getMouseX();
 		MOUSE_Y = in.getMouseY();
@@ -298,15 +370,15 @@ public class MainState extends BasicGameState{
 																		 ,Flags.WINDOW_HEIGHT/2 + Flags.CARD_HEIGHT/4);
 			}
 			if(droppedCards.containsKey(Flags.COMP_LEFT_ON_PLAY)){
-				droppedCards.get(Flags.COMP_LEFT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/4
+				droppedCards.get(Flags.COMP_LEFT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 - 2*Flags.CARD_WIDTH
 																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
 			}
 			if(droppedCards.containsKey(Flags.COMP_TOP_ON_PLAY)){
 				droppedCards.get(Flags.COMP_TOP_ON_PLAY).getCardImage().draw(Flags.WINDOW_WIDTH/2 - Flags.CARD_WIDTH/2
-																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/4);
+																		 ,Flags.WINDOW_HEIGHT/2 - 4*Flags.CARD_HEIGHT/3 + 10);
 			}
 			if(droppedCards.containsKey(Flags.COMP_RIGHT_ON_PLAY)){
-				droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 + Flags.CARD_WIDTH/4
+				droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getRotatedCardImage().draw(Flags.WINDOW_WIDTH/2 + Flags.CARD_WIDTH
 																		 ,Flags.WINDOW_HEIGHT/2 - Flags.CARD_HEIGHT/2);
 			}
 		}
