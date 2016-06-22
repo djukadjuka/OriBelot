@@ -261,6 +261,7 @@ public class MainState extends BasicGameState{
 		}
 		
 		if(Flags.ONE_CIRCLE_PHASE){
+			
 			if(droppedCards.size()==4){
 				Flags.ONE_CIRCLE_PHASE = false;
 				Flags.CLEAR_CARDS_ON_TABLE_PHASE = true;
@@ -398,6 +399,8 @@ public class MainState extends BasicGameState{
 		}
 		
 	}
+	
+	
 
 	private void drawInterface(Graphics g) throws SlickException{
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());

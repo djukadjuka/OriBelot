@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import mainPackage.mainClasses.gameStatePackage.MainState;
 import mainPackage.mainClasses.playerPackage.BabicPlayer;
 import mainPackage.mainClasses.playerPackage.DjukaPlayer;
 import mainPackage.mainClasses.playerPackage.DusicPlayer;
@@ -35,8 +38,69 @@ public class AppCore {
 	
 	private int colorDown;
 	
+	
+	//TEST SCORE
+	public static int cicrcleScore = 0;
+	public static int team1Score = 0;
+	public static int team2Score = 0;
+	
 	public void configureFirstPlayer(){
 		
+		Card firstDownCard = MainState.droppedCards.get(firstToPlay);
+		Card maxValueCard = MainState.droppedCards.get(firstToPlay);
+		Card maxValueAdutCard = null;
+		cicrcleScore = 0;
+		boolean adutDown = false;
+		
+		for(Card c : MainState.droppedCards.values()){
+			if(c.getCardSuit() == adut){
+				System.out.println("ADUT JE DOLE MAMU TI JEBEMs");
+				adutDown = true;
+				maxValueAdutCard = c;
+			}
+			cicrcleScore += c.getCardValue();
+		}
+		
+		if(!adutDown){
+			Iterator it = MainState.droppedCards.entrySet().iterator();
+			while(it.hasNext()){
+				Map.Entry pair = (Map.Entry)it.next();
+				Card c = (Card)pair.getValue();
+				if(c.getCardSuit() == firstDownCard.getCardSuit()){
+					if(c.getCardValue() > firstDownCard.getCardValue()){
+						firstToPlay = (Integer)pair.getKey();
+						nextToPlay = firstToPlay;
+						lastToPlay = firstToPlay - 1;
+					}
+				}
+			}
+		}else{
+			System.out.println("AAAAAAAAAA");
+			Iterator it = MainState.droppedCards.entrySet().iterator();
+			while(it.hasNext()){
+				Map.Entry pair = (Map.Entry)it.next();
+				Card c = (Card)pair.getValue();
+				if(c.getCardSuit() == adut){
+					if(c.getCardValue() >= maxValueAdutCard.getCardValue()){
+						firstToPlay = (Integer)pair.getKey();
+						nextToPlay = firstToPlay;
+						lastToPlay = firstToPlay - 1;
+					}
+				}
+			}
+		}
+		
+		if(firstToPlay == Flags.HUMAN_ON_PLAY || firstToPlay == Flags.COMP_TOP_ON_PLAY){
+			team1Score += cicrcleScore;
+			System.out.println("TIM1 ODNEO!");
+		}else{
+			team2Score += cicrcleScore;
+			System.out.println("TIM2 ODNEO!");
+		}
+		
+		
+		
+
 	}
 	
 	public int getColordDown(){
