@@ -16,6 +16,18 @@ public class DjukaPlayer implements Player{
 			playerCards.add(card);
 	}
 	
+	public void runThrough(){
+		for(int i=0;	i<8;	i++){
+			if(playerCards.get(i).getCardSuit() == AppCore.adut){
+				if(playerCards.get(i).getCardNumber() == 12){
+					playerCards.get(i).setCardValue(20);
+				}else if(playerCards.get(i).getCardNumber() == 9){
+					playerCards.get(i).setCardValue(14);
+				}
+			}
+		}
+	}
+	
 	public Card getCardFromPlayer(Card card){
 		for(int i = 0; i < playerCards.size(); i++){
 			if(playerCards.get(i) == card){
@@ -162,11 +174,12 @@ public class DjukaPlayer implements Player{
 			}
 		}		
 		MainState.leftCardNumber--;
-		if(AppCore.getInstance().getLastToPlay() == AppCore.getInstance().getNextToPlay()){
+		/*if(AppCore.getInstance().getLastToPlay() == Flags.COMP_LEFT_ON_PLAY){
 			Flags.ONE_CIRCLE_PHASE = false;
 		}else{
 			AppCore.getInstance().setNextToPlay(Flags.HUMAN_ON_PLAY);
-		}
+		}*/
+		AppCore.getInstance().setNextToPlay(Flags.HUMAN_ON_PLAY);
 		if(AppCore.getInstance().getFirstToPlay() == Flags.COMP_LEFT_ON_PLAY){
 			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.COMP_LEFT_ON_PLAY).getCardSuit());
 		}

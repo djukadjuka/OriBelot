@@ -44,8 +44,13 @@ public class AppCore {
 	public static int team1Score = 0;
 	public static int team2Score = 0;
 	
+	public void runThroughCards(){
+		hm.runThrough();
+		babic.runThrough();
+		dusic.runThrough();
+		djuka.runThrough();
+	}
 	public void configureFirstPlayer(){
-		
 		Card firstDownCard = MainState.droppedCards.get(firstToPlay);
 		Card maxValueCard = MainState.droppedCards.get(firstToPlay);
 		Card maxValueAdutCard = null;
@@ -54,13 +59,11 @@ public class AppCore {
 		
 		for(Card c : MainState.droppedCards.values()){
 			if(c.getCardSuit() == adut){
-				System.out.println("ADUT JE DOLE MAMU TI JEBEMs");
 				adutDown = true;
 				maxValueAdutCard = c;
 			}
 			cicrcleScore += c.getCardValue();
 		}
-		
 		if(!adutDown){
 			Iterator it = MainState.droppedCards.entrySet().iterator();
 			while(it.hasNext()){
@@ -75,7 +78,6 @@ public class AppCore {
 				}
 			}
 		}else{
-			System.out.println("AAAAAAAAAA");
 			Iterator it = MainState.droppedCards.entrySet().iterator();
 			while(it.hasNext()){
 				Map.Entry pair = (Map.Entry)it.next();
@@ -89,18 +91,11 @@ public class AppCore {
 				}
 			}
 		}
-		
 		if(firstToPlay == Flags.HUMAN_ON_PLAY || firstToPlay == Flags.COMP_TOP_ON_PLAY){
 			team1Score += cicrcleScore;
-			System.out.println("TIM1 ODNEO!");
 		}else{
 			team2Score += cicrcleScore;
-			System.out.println("TIM2 ODNEO!");
 		}
-		
-		
-		
-
 	}
 	
 	public int getColordDown(){

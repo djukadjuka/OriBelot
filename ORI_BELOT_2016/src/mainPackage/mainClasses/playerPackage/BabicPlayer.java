@@ -11,6 +11,18 @@ public class BabicPlayer implements Player{
 
 	private ArrayList<Card> playerCards = new ArrayList<Card>();
 	
+	public void runThrough(){
+		for(int i=0;	i<8;	i++){
+			if(playerCards.get(i).getCardSuit() == AppCore.adut){
+				if(playerCards.get(i).getCardNumber() == 12){
+					playerCards.get(i).setCardValue(20);
+				}else if(playerCards.get(i).getCardNumber() == 9){
+					playerCards.get(i).setCardValue(14);
+				}
+			}
+		}
+	}
+	
 	public void dealCardToPlayer(Card card){
 		if(playerCards.size() < 8)
 			playerCards.add(card);
@@ -162,11 +174,12 @@ public class BabicPlayer implements Player{
 			}
 		}		
 		MainState.rightCardNumber--;
-		if(AppCore.getInstance().getLastToPlay() == AppCore.getInstance().getNextToPlay()){
+		/*if(AppCore.getInstance().getLastToPlay() == Flags.COMP_RIGHT_ON_PLAY){
 			Flags.ONE_CIRCLE_PHASE = false;
 		}else{
 			AppCore.getInstance().setNextToPlay(Flags.COMP_TOP_ON_PLAY);
-		}
+		}*/
+		AppCore.getInstance().setNextToPlay(Flags.COMP_TOP_ON_PLAY);
 		if(AppCore.getInstance().getFirstToPlay() == Flags.COMP_RIGHT_ON_PLAY){
 			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.COMP_RIGHT_ON_PLAY).getCardSuit());
 		}

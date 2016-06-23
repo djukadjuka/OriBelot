@@ -103,10 +103,9 @@ public class MainState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		//g.drawImage(backgroundImage,0,0);	//Prikaz backgrounda -> zakomentarisao da brze potera igru. vratiti na krajnjim testovima.
-		g.drawString("Proslo sekundi : " 
-					+ secondCounter.getSeconds() 
-					+ "\nProslo milisekundi : " 
-					+ secondCounter.getMilliseconds()
+		g.drawString("team 1 : " + AppCore.team1Score 
+				    +"\nteam 2 : " + AppCore.team2Score
+					+"" 
 					+ "\nMis je na : X(" 
 					+ MOUSE_X 
 					+")| Y("
@@ -130,14 +129,29 @@ public class MainState extends BasicGameState{
 				}
 				case Flags.COMP_RIGHT_ON_PLAY :{
 					AppCore.getInstance().getBabicPlayer().playCard();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					break;
 				}
 				case Flags.COMP_TOP_ON_PLAY:{
 					AppCore.getInstance().getDusicPlayer().playCard();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					break;
 				}
 				case Flags.COMP_LEFT_ON_PLAY:{
 					AppCore.getInstance().getDjukaPlayer().playCard();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					break;
 				}
 			}
@@ -231,40 +245,42 @@ public class MainState extends BasicGameState{
 		}
 		
 		if(Flags.CALCULATE_DECK_RESULT){
-			System.out.println("Sace malo da mu ga da....");
+			System.out.println("Calculating deck result...");
 		}
 		
 		if(Flags.CALCULATE_CIRCLE_RESULT){
-			System.out.println("Neki rezultataatatata");
 			Flags.CALCULATE_CIRCLE_RESULT = false;
 			if(AppCore.getInstance().getBabicPlayer().getCardNumber() == 0 &&
 				   AppCore.getInstance().getDjukaPlayer().getCardNumber() == 0 &&
 				   AppCore.getInstance().getDusicPlayer().getCardNumber() == 0 &&
 				   AppCore.getInstance().getHumanPlayer().getCardNumber() == 0
 				){
-					System.out.println("CEO KRUG AAAAA");
 					Flags.CALCULATE_DECK_RESULT = true;
 			}else{
 				Flags.ONE_CIRCLE_PHASE = true;
 			}
 		}
 		if(Flags.CLEAR_CARDS_ON_TABLE_PHASE){
-			Flags.CALCULATE_CIRCLE_RESULT = true;
-			AppCore.getInstance().configureFirstPlayer();
 			Flags.CLEAR_CARDS_ON_TABLE_PHASE = false;
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			Flags.CALCULATE_CIRCLE_RESULT = true;
 			droppedCards.clear();
 		}
 		
+		if(Flags.CONFIG_FIRST_NO_DEAL){
+			AppCore.getInstance().configureFirstPlayer();
+			Flags.CLEAR_CARDS_ON_TABLE_PHASE = true;
+			Flags.CONFIG_FIRST_NO_DEAL = false;
+		}
+		
 		if(Flags.ONE_CIRCLE_PHASE){
-			
 			if(droppedCards.size()==4){
 				Flags.ONE_CIRCLE_PHASE = false;
-				Flags.CLEAR_CARDS_ON_TABLE_PHASE = true;
+				Flags.CONFIG_FIRST_NO_DEAL = true;
 			}
 		}
 		
@@ -318,6 +334,7 @@ public class MainState extends BasicGameState{
 			
 			Flags.HUMAN_TO_DROP_CARD = true;
 			Flags.DECLARATION_PRESTEP = true;
+			AppCore.getInstance().runThroughCards();
 		}
 		
 		else if(Flags.PLAYER3_TO_CHOOSE){
