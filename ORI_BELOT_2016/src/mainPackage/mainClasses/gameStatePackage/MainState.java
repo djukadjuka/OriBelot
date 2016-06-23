@@ -41,8 +41,6 @@ public class MainState extends BasicGameState{
 	//SLIKE
 	private Image backgroundImage;
 	
-	
-	
 	//STATICKE
 	public static HashMap<Integer, Card> droppedCards = new HashMap<>();
 	public static SecondCounter secondCounter;
@@ -226,6 +224,17 @@ public class MainState extends BasicGameState{
 					leftCardNumber += 1;
 				}
 			}
+			for (int i = 0; i < AppCore.getInstance().getBabicPlayer().getCardNumber(); i++) {
+				System.out.print(AppCore.getInstance().getBabicPlayer().getCardByIndex(i) + "||");
+			}
+			System.out.println();
+			for (int i = 0; i < AppCore.getInstance().getDusicPlayer().getCardNumber(); i++) {
+				System.out.print(AppCore.getInstance().getDusicPlayer().getCardByIndex(i) + "||");
+			}
+			System.out.println();
+			for (int i = 0; i < AppCore.getInstance().getDjukaPlayer().getCardNumber(); i++) {
+				System.out.print(AppCore.getInstance().getDjukaPlayer().getCardByIndex(i) + "||");
+			}
 			AppCore.getInstance().getHumanPlayer().sortCards();
 		}
 		
@@ -245,7 +254,7 @@ public class MainState extends BasicGameState{
 		}
 		
 		if(Flags.CALCULATE_DECK_RESULT){
-			System.out.println("Calculating deck result...");
+			
 		}
 		
 		if(Flags.CALCULATE_CIRCLE_RESULT){
@@ -256,6 +265,11 @@ public class MainState extends BasicGameState{
 				   AppCore.getInstance().getHumanPlayer().getCardNumber() == 0
 				){
 					Flags.CALCULATE_DECK_RESULT = true;
+					if(Flags.HUMAN_ON_PLAY == AppCore.getInstance().getFirstToPlay() || Flags.COMP_TOP_ON_PLAY == AppCore.getInstance().getFirstToPlay()){
+						AppCore.team1Score += 10;
+					}else{
+						AppCore.team2Score += 10;
+					}
 			}else{
 				Flags.ONE_CIRCLE_PHASE = true;
 			}

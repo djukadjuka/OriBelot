@@ -76,7 +76,7 @@ public class Card {
 	}
 	@Override
 	public String toString(){
-		return cardName + " | Value : " + cardValue + "\n ==========================";
+		return cardName;
 	}
 	public boolean isAdut(int suit){
 		return cardSuit == suit;
