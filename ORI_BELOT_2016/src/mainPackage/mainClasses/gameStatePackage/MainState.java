@@ -130,7 +130,7 @@ public class MainState extends BasicGameState{
 				case Flags.COMP_RIGHT_ON_PLAY :{
 					AppCore.getInstance().getBabicPlayer().playCard();
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -139,7 +139,7 @@ public class MainState extends BasicGameState{
 				case Flags.COMP_TOP_ON_PLAY:{
 					AppCore.getInstance().getDusicPlayer().playCard();
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -148,7 +148,7 @@ public class MainState extends BasicGameState{
 				case Flags.COMP_LEFT_ON_PLAY:{
 					AppCore.getInstance().getDjukaPlayer().playCard();
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -272,7 +272,7 @@ public class MainState extends BasicGameState{
 		}
 		
 		if(Flags.CONFIG_FIRST_NO_DEAL){
-			AppCore.getInstance().configureFirstPlayer();
+			AppCore.getInstance().PRVIIGRAC();
 			Flags.CLEAR_CARDS_ON_TABLE_PHASE = true;
 			Flags.CONFIG_FIRST_NO_DEAL = false;
 		}

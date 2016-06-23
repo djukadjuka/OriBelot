@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.newdawn.slick.Image;
@@ -18,6 +19,7 @@ import mainPackage.mainClasses.playerPackage.DusicPlayer;
 import mainPackage.mainClasses.playerPackage.HumanPlayer;
 import mainPackage.mainClasses.playerPackage.Player;
 import mainPackage.mainClasses.supportPackage.Result;
+import sun.applet.Main;
 
 public class AppCore {
 	public static int adut = 0; // 1 - srce, 2 - tikva, 3 - list, 4 - zir
@@ -50,42 +52,71 @@ public class AppCore {
 		dusic.runThrough();
 		djuka.runThrough();
 	}
-	public void configureFirstPlayer(){
-		Card firstDownCard = MainState.droppedCards.get(firstToPlay);
-		Card maxValueCard = MainState.droppedCards.get(firstToPlay);
-		Card maxValueAdutCard = null;
-		cicrcleScore = 0;
+	public void PRVIIGRAC(){
+		Card maxCard = MainState.droppedCards.get(firstToPlay);
+		Card maxAdutCard = null;
 		boolean adutDown = false;
 		
-		for(Card c : MainState.droppedCards.values()){
-			if(c.getCardSuit() == adut){
-				adutDown = true;
-				maxValueAdutCard = c;
-			}
-			cicrcleScore += c.getCardValue();
+		cicrcleScore = 0;
+		
+		//SAMO SRACUNAJ REZULTAT KRUGA
+		for(Card card : MainState.droppedCards.values()){
+			cicrcleScore += card.getCardValue();
 		}
-		if(!adutDown){
-			Iterator it = MainState.droppedCards.entrySet().iterator();
-			while(it.hasNext()){
-				Map.Entry pair = (Map.Entry)it.next();
-				Card c = (Card)pair.getValue();
-				if(c.getCardSuit() == firstDownCard.getCardSuit()){
-					if(c.getCardValue() > firstDownCard.getCardValue()){
-						firstToPlay = (Integer)pair.getKey();
-						nextToPlay = firstToPlay;
+		
+		//PRONADJI ADUTA DAL JE BILO I POSTAVI GA NA MAX ADUT
+		for(Card card : MainState.droppedCards.values()){
+			if(card.getCardSuit() == adut){
+				maxAdutCard = card;
+				adutDown = true;
+				break;
+			}
+		}
+		
+		//AKO IMA ADUTA
+		if(adutDown){
+			//NADJI NAJJACEG ADUTA OSTALO TE NE INTERESUJE
+			for(Card c : MainState.droppedCards.values()){
+				if(c.getCardSuit() == adut && c.getCardValue() > maxAdutCard.getCardValue()){
+					maxAdutCard = c;
+				}
+			}
+			
+			//NADJI KLJUUC TE KARTE I TO POSTAVI KAO PRVI IGRAC
+			Iterator iter = MainState.droppedCards.entrySet().iterator();
+			while(iter.hasNext()){
+				Map.Entry par = (Entry) iter.next();
+				Card karta = (Card) par.getValue();
+				int kljuc = (int) par.getKey();
+				if(karta.getCardValue() == maxAdutCard.getCardValue() && karta.getCardSuit() == maxAdutCard.getCardSuit()){
+					firstToPlay = kljuc;
+					nextToPlay = kljuc;
+					if(firstToPlay - 1 == 0){
+						lastToPlay = 4;
+					}else{
 						lastToPlay = firstToPlay - 1;
 					}
 				}
 			}
 		}else{
-			Iterator it = MainState.droppedCards.entrySet().iterator();
-			while(it.hasNext()){
-				Map.Entry pair = (Map.Entry)it.next();
-				Card c = (Card)pair.getValue();
-				if(c.getCardSuit() == adut){
-					if(c.getCardValue() >= maxValueAdutCard.getCardValue()){
-						firstToPlay = (Integer)pair.getKey();
-						nextToPlay = firstToPlay;
+			//AKO NBEMA ADUTA NADJI NAJJACU KARTU
+			for(Card c : MainState.droppedCards.values()){
+				if(c.getCardValue() > maxCard.getCardValue() && c.getCardSuit() == maxCard.getCardSuit()){
+					maxCard = c;
+				}
+			}
+			//UZMI JKLJUC TE KARTE I POSTAVI JE ZA PRVOG KOJI IGRA
+			Iterator iter = MainState.droppedCards.entrySet().iterator();
+			while(iter.hasNext()){
+				Map.Entry par = (Entry) iter.next();
+				Card karta = (Card) par.getValue();
+				int kljuc = (int) par.getKey();
+				if(karta.getCardValue() == maxCard.getCardValue() && karta.getCardSuit() == maxCard.getCardSuit()){
+					firstToPlay = kljuc;
+					nextToPlay = kljuc;
+					if(firstToPlay - 1 == 0){
+						lastToPlay = 4;
+					}else{
 						lastToPlay = firstToPlay - 1;
 					}
 				}
@@ -97,7 +128,6 @@ public class AppCore {
 			team2Score += cicrcleScore;
 		}
 	}
-	
 	public int getColordDown(){
 		return colorDown;
 	}
