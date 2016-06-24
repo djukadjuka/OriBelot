@@ -1,7 +1,5 @@
 package mainPackage.mainClasses;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -17,9 +15,6 @@ import mainPackage.mainClasses.playerPackage.BabicPlayer;
 import mainPackage.mainClasses.playerPackage.DjukaPlayer;
 import mainPackage.mainClasses.playerPackage.DusicPlayer;
 import mainPackage.mainClasses.playerPackage.HumanPlayer;
-import mainPackage.mainClasses.playerPackage.Player;
-import mainPackage.mainClasses.supportPackage.Result;
-import sun.applet.Main;
 
 public class AppCore {
 	public static int adut = 0; // 1 - srce, 2 - tikva, 3 - list, 4 - zir

@@ -49,6 +49,7 @@ public class MainState extends BasicGameState{
 	public static String player2Choise;
 	public static String player3Choise;
 	public static String calledAdut = "";
+	public static String zvanja = "";
 	
 	private UnicodeFont ufont = null;
 	
@@ -101,6 +102,7 @@ public class MainState extends BasicGameState{
 		//g.drawImage(backgroundImage,0,0);	//Prikaz backgrounda -> zakomentarisao da brze potera igru. vratiti na krajnjim testovima.
 		g.drawString("T1 : " + AppCore.team1Score + "| T2 : " + AppCore.team2Score + "\n" +
 					 "T1F : " + AppCore.fullTeam1Score + "| T2F : " + AppCore.fullTeam2Score,10,10);
+		g.drawString(zvanja, Flags.WINDOW_WIDTH-200, 10);
 		drawInterface(g);
 		drawCards(g);
 	}
@@ -241,9 +243,13 @@ public class MainState extends BasicGameState{
 				System.out.print(AppCore.getInstance().getDjukaPlayer().getCardByIndex(i) + "||");
 			}
 			AppCore.getInstance().getHumanPlayer().sortCards();
+			AppCore.getInstance().getBabicPlayer().sortCards();
+			AppCore.getInstance().getDusicPlayer().sortCards();
+			AppCore.getInstance().getDjukaPlayer().sortCards();
 		}
 		
 		if(Flags.DECLARATIONS){
+			zvanja = "";
 			System.out.println("human");
 			AppCore.getInstance().getHumanPlayer().handleDeclarations();
 			
@@ -268,10 +274,12 @@ public class MainState extends BasicGameState{
 				if(AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount() == 0 &&
 						AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount() ==0){
 					System.out.println("javlja tim 2");
+					addDeclTo2Score();
 				} // javlja tim 1
 				else if(AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount() == 0 &&
 						AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount() == 0){
 					System.out.println("javlja tim 1");
+					addDeclTo1Score();
 				} // pita se ko ima jace javljanje 
 				else{
 					int maxTim1 = AppCore.getInstance().getHumanPlayer().getDeclarations().getMaxValue() > 
@@ -288,9 +296,11 @@ public class MainState extends BasicGameState{
 				    // javlja tim1
 				    if(maxTim1 > maxTim2){
 				    	System.out.println("javlja tim 1");
+				    	addDeclTo1Score();
 				    } // javlja tim2 
 				    else if(maxTim1 < maxTim2){
 				    	System.out.println("javlja tim 2");
+				    	addDeclTo2Score();
 				    } // pitamo se ko ima do vece karte 
 				    else{
 				    	int maxToTim1 = -5;
@@ -308,10 +318,13 @@ public class MainState extends BasicGameState{
 				    			AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxTo() > maxToTim2)
 				    		maxToTim2 = AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxTo();
 				    	
-				    	if(maxToTim1 > maxToTim2)
+				    	if(maxToTim1 > maxToTim2){
 				    		System.out.println("javlja tim 1");
-				    	else if(maxToTim1 < maxToTim2)
-				    		System.out.println("javlja tim 2");
+				    		addDeclTo1Score();
+				    	}
+				    	else if(maxToTim1 < maxToTim2){
+				    		addDeclTo2Score();
+				    	}
 				    	else{
 				    		System.out.println("videcemo");
 				    	}
@@ -319,9 +332,58 @@ public class MainState extends BasicGameState{
 				}
 				
 			}
+			AppCore.getInstance().getHumanPlayer().getDeclarations().clearDeclaration();
+			AppCore.getInstance().getDjukaPlayer().getDeclarations().clearDeclaration();
+			AppCore.getInstance().getDusicPlayer().getDeclarations().clearDeclaration();
+			AppCore.getInstance().getBabicPlayer().getDeclarations().clearDeclaration();
 		}
 		
 		flowControl();
+	}
+	
+
+	public void addDeclTo1Score(){
+		zvanja += "Tim 1 :\n\t";
+		for(int i=0;	i<AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount();	i++){
+			if(i == 0){
+				zvanja+="Human: ";
+			}
+			AppCore.team1Score += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i) + " to " + 
+					AppCore.getInstance().getHumanPlayer().getDeclarations().getToAt(i) + " " + 
+					AppCore.getInstance().getHumanPlayer().getDeclarations().getSuitAt(i);
+		}
+		for(int i=0;	i<AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount();	i++){
+			if(i == 0){
+				zvanja+="\n\tDusic: ";
+			}
+			AppCore.team1Score += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i) + " to " + 
+					AppCore.getInstance().getDusicPlayer().getDeclarations().getToAt(i)+ " " + 
+					AppCore.getInstance().getDusicPlayer().getDeclarations().getSuitAt(i);;
+		}
+	}
+	
+	public void addDeclTo2Score(){
+		zvanja += "Tim 1 :\n\t";
+		for(int i=0;	i<AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount();	i++){
+			if(i == 0){
+				zvanja+="Djuka: ";
+			}
+			AppCore.team1Score += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i) + " to " + 
+					AppCore.getInstance().getDjukaPlayer().getDeclarations().getToAt(i) + " " + 
+					AppCore.getInstance().getDjukaPlayer().getDeclarations().getSuitAt(i);;
+		}
+		for(int i=0;	i<AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount();	i++){
+			if(i == 0){
+				zvanja+="\n\tBabic: ";
+			}
+			AppCore.team1Score += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i) + " to " + 
+					AppCore.getInstance().getBabicPlayer().getDeclarations().getToAt(i) + " " + 
+					AppCore.getInstance().getBabicPlayer().getDeclarations().getSuitAt(i);;
+		}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void flowControl(){
@@ -562,8 +624,6 @@ public class MainState extends BasicGameState{
 		}
 		
 	}
-	
-	
 
 	private void drawInterface(Graphics g) throws SlickException{
 		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());

@@ -2,6 +2,8 @@ package mainPackage.mainClasses.playerPackage;
 
 import java.util.ArrayList;
 
+import mainPackage.mainClasses.Flags;
+
 public class Declaration {
 
 	private ArrayList<Integer> value = new ArrayList<>();
@@ -53,7 +55,16 @@ public class Declaration {
 		return to.get(index);
 	}
 
-	public int getSuitAt(int index) {
-		return suit.get(index);
+	public String getSuitAt(int index) {
+		int suitT = suit.get(index);
+		if(suitT == Flags.ZIR){
+			return "CLUBS";
+		}else if(suitT == Flags.SRCE){
+			return "HEARTS";
+		}else if(suitT == Flags.TIKVA){
+			return "PUMPKINS";
+		}else{
+			return "SPADES";
+		}
 	}
 }
