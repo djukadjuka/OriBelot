@@ -500,7 +500,7 @@ public class MainState extends BasicGameState{
 		changeAdutCorner(g);
 		drawDownCards(g);
 		if(Flags.HUMAN_TO_CHOOSE){
-			drawHumanPickAdut(true, g);
+			drawHumanPickAdut(g);
 		}
 		
 		if(Flags.PLAYER1_TO_CHOOSE){
@@ -546,7 +546,7 @@ public class MainState extends BasicGameState{
 		ufont.drawString(Flags.WINDOW_WIDTH/2 - 220, Flags.WINDOW_HEIGHT/2 - 40, "Player" + player + " to choose adut");
 	}
 	
-	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
+	private void drawHumanPickAdut(Graphics g){
 		pickAdutDialog.drawDialog(g);
 	}
 	
