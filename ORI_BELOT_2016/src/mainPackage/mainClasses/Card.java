@@ -25,6 +25,14 @@ public class Card {
 		this.playable = false;
 	}
 	
+	public Card(int cardValue,int cardSuit,int cardNumber,Image cardImage,String cardName){
+		this.cardValue = cardValue;
+		this.cardSuit = cardSuit;
+		this.cardNumber = cardNumber;
+		this.cardImage = cardImage;
+		this.cardName = cardName;
+	}
+	
 	public boolean isPlayable() {
 		return playable;
 	}

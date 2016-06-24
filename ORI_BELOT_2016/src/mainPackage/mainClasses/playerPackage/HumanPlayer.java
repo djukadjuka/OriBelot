@@ -172,6 +172,200 @@ public class HumanPlayer {
 		}
 
 	}
+	
+	public boolean imaBoju(){
+		for(Card card : playerCards){
+			if(card.getCardSuit() == MainState.droppedCards.get(AppCore.getInstance().getFirstToPlay()).getCardSuit()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean imaAduta(){
+		for(Card card : playerCards){
+			if(card.getCardSuit() == AppCore.adut){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean imaJacegAduta(){
+		Card najjaciAdut = null;
+		for(Card c : MainState.droppedCards.values()){
+			if(c.getCardSuit() == AppCore.adut){
+				if(najjaciAdut == null){
+					najjaciAdut = c;
+				}else if(najjaciAdut.getCardValue() < c.getCardValue()){
+					najjaciAdut = c;
+				}
+			}
+		}
+		
+		for(Card c : playerCards){
+			if(c.getCardSuit() == AppCore.adut && c.getCardValue() > najjaciAdut.getCardValue())
+				return true;
+		}
+		
+		return false;
+	}
+
+	public ArrayList<Card> dajJaceAdute(){
+		ArrayList<Card> ret = new ArrayList<Card>();
+		Card najjaciAdut = null;
+		for(Card c : MainState.droppedCards.values()){
+			if(c.getCardSuit() == AppCore.adut){
+				if(najjaciAdut == null){
+					najjaciAdut = c;
+				}else if(najjaciAdut.getCardValue() < c.getCardValue()){
+					najjaciAdut = c;
+				}
+			}
+		}
+		for(Card c : playerCards){
+			if(c.getCardSuit() == AppCore.adut && c.getCardValue() > najjaciAdut.getCardValue()){
+				ret.add(c);
+			}
+		}	
+		return ret;
+	}
+	
+	public ArrayList<Card> dajSveAdute(){
+		ArrayList<Card> ret = new ArrayList<Card>();
+		for(Card c : playerCards){
+			if(c.getCardSuit() == AppCore.adut){
+				ret.add(c);
+			}
+		}
+		return ret;
+	}
+
+	public boolean seceno(){
+		for(Card card : MainState.droppedCards.values()){
+			if(card.getCardSuit() == AppCore.adut){
+				return true;
+			}
+		}		
+		return false;
+	}
+	
+	public ArrayList<Card> dajSveUBoji(int boja){
+		ArrayList<Card> ret = new ArrayList<Card>();
+		for(Card card : playerCards ){
+			if(card.getCardSuit() == boja){
+				ret.add(card);
+			}
+		}
+		return ret;
+	}
+	
+	public boolean imaJacuBoju(int boja){
+		Card najjaciCard = null;
+		for(Card c : MainState.droppedCards.values()){
+			if(c.getCardSuit() == boja){
+				if(najjaciCard == null){
+					najjaciCard = c;
+				}else if(najjaciCard.getCardValue() < c.getCardValue()){
+					najjaciCard = c;
+				}
+			}
+		}
+		
+		for(Card c : playerCards){
+			if(c.getCardSuit() == boja && c.getCardValue() > najjaciCard.getCardValue())
+				return true;
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<Card> dajSveJaceUBoji(int boja){
+		ArrayList<Card> ret = new ArrayList<Card>();
+		Card najjacaUBojiNaPolju = null;
+		for(Card c : MainState.droppedCards.values()){
+			if(najjacaUBojiNaPolju == null){
+				if(c.getCardSuit() == boja)
+					najjacaUBojiNaPolju = c;
+			}else if(najjacaUBojiNaPolju.getCardValue() < c.getCardValue() && c.getCardSuit() == boja){
+				najjacaUBojiNaPolju = c;
+			}
+		}
+		for(Card c : playerCards){
+			if(c.getCardValue() > najjacaUBojiNaPolju.getCardValue() && c.getCardSuit() == boja){
+				ret.add(c);
+				System.out.println(c);
+			}
+		}
+		return ret;
+	}
+	
+	public ArrayList<Card> getLegalCards(){
+		Card firstCard = MainState.droppedCards.get(AppCore.getInstance().getFirstToPlay());
+		System.out.println(firstCard);
+		System.out.println("\nBabiscese : ");
+		if(firstCard.getCardSuit() == AppCore.adut){			// adut
+			System.out.print("-Adut dole");
+			if(imaAduta()){										//ima aduta
+				System.out.print("-ima aduta");
+				if(imaJacegAduta()){							//ima jaceg aduta
+					System.out.print("-ima jaceg");
+					return dajJaceAdute();
+				}else{											//nema jaceg aduta
+					System.out.print("-nema jaceg");
+					return dajSveAdute();
+				}
+			}else{												//nema aduta
+				System.out.print("-nema aduta");
+				return playerCards;
+			}
+		}else{							//nije adut
+			System.out.print("-Prva nije adut");
+			if(seceno()){			//seceno
+				System.out.print("-neko seko");
+				if(imaBoju()){									//ima boju
+					System.out.print("-ima boju");
+					return dajSveUBoji(firstCard.getCardSuit());
+				}else{											//nema boju
+					System.out.print("-nema boju");
+					if(imaAduta()){								//ima aduta
+						System.out.print("-ima aduta");
+						if(imaJacegAduta()){
+							System.out.print("-ima jaceg aduta");
+							return dajJaceAdute();
+						}else{
+							System.out.print("-nema jaceg aduta");
+							return dajSveAdute();
+						}
+					}else{										//nema aduta
+						System.out.print("-mane aduta");
+						return playerCards;
+					}
+				}
+			}else{												//neseceno
+				System.out.print("-niko seko");
+				if(imaBoju()){
+					System.out.print("-ima boju");
+					if(imaJacuBoju(firstCard.getCardSuit())){
+						System.out.print("-ima jacu boju");
+						return dajSveJaceUBoji(firstCard.getCardSuit());
+					}else{
+						System.out.print("-nema jacu boju");
+						return dajSveUBoji(firstCard.getCardSuit());
+					}
+				}else{
+					System.out.print("-nema boju");
+					if(imaAduta()){
+						System.out.print("-ima aduta");
+						return dajSveAdute();
+					}else{
+						System.out.print("-mane aduta");
+						return playerCards;
+					}
+				}
+			}
+		}
+	}
 
 	public Declaration getDeclarations() {
 		return declarations;

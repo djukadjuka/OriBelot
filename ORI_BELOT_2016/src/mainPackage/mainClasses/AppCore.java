@@ -27,10 +27,6 @@ public class AppCore {
 	private static AppCore instance;
 	
 	private static ArrayList<Card> cards;
-	private ArrayList<Result> shuffleResults;
-	private Result fullResult;
-	private Result roundsWon;
-	private Player adutChoser; // !!!!!! OBAVEZNO ODRADITI
 	private int nextToPlay = 1; // human uvek igra prvi
 	private int firstToPlay = 1;
 	private int lastToPlay = 4;
@@ -47,6 +43,9 @@ public class AppCore {
 	public static int cicrcleScore = 0;
 	public static int team1Score = 0;
 	public static int team2Score = 0;
+	
+	public static int fullTeam1Score = 0;
+	public static int fullTeam2Score = 0;
 	
 	public void runThroughCards(){
 		hm.runThrough();
@@ -140,9 +139,6 @@ public class AppCore {
 		init();
 	}
 	private void init(){
-		fullResult = new Result();
-		shuffleResults = new ArrayList<Result>();
-		roundsWon = new Result();
 		cards = new ArrayList<Card>();
 	}
 	public static AppCore getInstance(){
@@ -162,6 +158,9 @@ public class AppCore {
 			e.printStackTrace();
 		}					
 		Collections.shuffle(cards, new Random(seed));	//promesaj sve karte
+		zvaoAduta = 0;
+		team1Score = 0;
+		team2Score = 0;
 		fullScore = 162;
 	}
 	public void initCards() throws SlickException{

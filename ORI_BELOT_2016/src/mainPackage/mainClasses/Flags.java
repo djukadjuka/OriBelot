@@ -14,7 +14,7 @@ public class Flags {
 	public static boolean PLAYER1_TO_DROP_CARD = false;
 	public static boolean PLAYER2_TO_DROP_CARD = false;
 	public static boolean PLAYER3_TO_DROP_CARD = false;
-	
+	public static boolean DEAL_24_PREFASE = false;
 	
 	//KO IGRA
 	public static int ON_PLAY = 0;

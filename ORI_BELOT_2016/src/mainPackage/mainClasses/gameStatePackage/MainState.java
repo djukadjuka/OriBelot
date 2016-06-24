@@ -1,9 +1,8 @@
 package mainPackage.mainClasses.gameStatePackage;
 
-import java.util.HashMap;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,8 +14,6 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
-import com.sun.glass.ui.Window;
 
 import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
@@ -51,6 +48,7 @@ public class MainState extends BasicGameState{
 	public static String player1Choise;
 	public static String player2Choise;
 	public static String player3Choise;
+	public static String calledAdut = "";
 	
 	private UnicodeFont ufont = null;
 	
@@ -101,13 +99,8 @@ public class MainState extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		//g.drawImage(backgroundImage,0,0);	//Prikaz backgrounda -> zakomentarisao da brze potera igru. vratiti na krajnjim testovima.
-		g.drawString("team 1 : " + AppCore.team1Score 
-				    +"\nteam 2 : " + AppCore.team2Score
-					+"" 
-					+ "\nMis je na : X(" 
-					+ MOUSE_X 
-					+")| Y("
-					+MOUSE_Y+")", 10, 10);
+		g.drawString("T1 : " + AppCore.team1Score + "| T2 : " + AppCore.team2Score + "\n" +
+					 "T1F : " + AppCore.fullTeam1Score + "| T2F : " + AppCore.fullTeam2Score,10,10);
 		drawInterface(g);
 		drawCards(g);
 	}
@@ -160,6 +153,9 @@ public class MainState extends BasicGameState{
 				pickAdutDialog.humanChosesAdut(MOUSE_X, MOUSE_Y);		//HUMAN_TO_CHOSE i DEAL_32 se postavlja unutar metoda :
 																		//humanChosesAdut -> xClicked -> x.isPressed
 			}
+			if(AppCore.adut != 0){
+				AppCore.zvaoAduta = Flags.HUMAN_ON_PLAY;
+			}
 		}
 
 		if(Flags.DEAL_24){
@@ -189,6 +185,9 @@ public class MainState extends BasicGameState{
 				e.printStackTrace();
 			}
 			AppCore.getInstance().getBabicPlayer().chooseAdut(2);
+			if(AppCore.adut != 0){
+				AppCore.zvaoAduta = Flags.COMP_RIGHT_ON_PLAY;
+			}
 		}
 		
 		if(Flags.PLAYER2_TO_CHOOSE){
@@ -198,6 +197,9 @@ public class MainState extends BasicGameState{
 				e.printStackTrace();
 			}
 			AppCore.getInstance().getDusicPlayer().chooseAdut(3);
+			if(AppCore.adut != 0){
+				AppCore.zvaoAduta = Flags.COMP_TOP_ON_PLAY;
+			}
 		}
 		
 		if(Flags.PLAYER3_TO_CHOOSE){
@@ -207,6 +209,9 @@ public class MainState extends BasicGameState{
 				e.printStackTrace();
 			}
 			AppCore.getInstance().getDjukaPlayer().chooseAdut(4);
+			if(AppCore.adut != 0){
+				AppCore.zvaoAduta = Flags.COMP_LEFT_ON_PLAY;
+			}
 		}
 		
 		if(Flags.DEAL_32){
@@ -239,22 +244,120 @@ public class MainState extends BasicGameState{
 		}
 		
 		if(Flags.DECLARATIONS){
+			System.out.println("human");
+			AppCore.getInstance().getHumanPlayer().handleDeclarations();
 			
+			System.out.println("babic");
+			AppCore.getInstance().getBabicPlayer().handleDeclarations();
+			
+			System.out.println("dusic");
+			AppCore.getInstance().getDusicPlayer().handleDeclarations();
+			
+			System.out.println("djuka");
+			AppCore.getInstance().getDjukaPlayer().handleDeclarations();
+			
+			System.out.println("--------------------------------");
+			
+			// ako postoje javljanja
+			if(!(AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount() == 0 &&
+					AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount() == 0 &&
+					AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount() == 0 &&
+					AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount() == 0)){
+				
+				// javlja tim 2
+				if(AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount() == 0 &&
+						AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount() ==0){
+					System.out.println("javlja tim 2");
+				} // javlja tim 1
+				else if(AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount() == 0 &&
+						AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount() == 0){
+					System.out.println("javlja tim 1");
+				} // pita se ko ima jace javljanje 
+				else{
+					int maxTim1 = AppCore.getInstance().getHumanPlayer().getDeclarations().getMaxValue() > 
+								  AppCore.getInstance().getDusicPlayer().getDeclarations().getMaxValue() ?
+								  AppCore.getInstance().getHumanPlayer().getDeclarations().getMaxValue() :
+								  AppCore.getInstance().getDusicPlayer().getDeclarations().getMaxValue();
+								  
+				    int maxTim2 = AppCore.getInstance().getBabicPlayer().getDeclarations().getMaxValue() >
+				    			  AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxValue() ?
+				    			  AppCore.getInstance().getBabicPlayer().getDeclarations().getMaxValue() :
+				    			  AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxValue();
+					
+					
+				    // javlja tim1
+				    if(maxTim1 > maxTim2){
+				    	System.out.println("javlja tim 1");
+				    } // javlja tim2 
+				    else if(maxTim1 < maxTim2){
+				    	System.out.println("javlja tim 2");
+				    } // pitamo se ko ima do vece karte 
+				    else{
+				    	int maxToTim1 = -5;
+				    	int maxToTim2 = -5;
+				    	
+				    	if(AppCore.getInstance().getHumanPlayer().getDeclarations().getMaxValue() == maxTim1)
+				    		maxToTim1 = AppCore.getInstance().getHumanPlayer().getDeclarations().getMaxTo();
+				    	if(AppCore.getInstance().getDusicPlayer().getDeclarations().getMaxValue() == maxTim1 &&
+				    			AppCore.getInstance().getDusicPlayer().getDeclarations().getMaxTo() > maxToTim1)
+				    		maxToTim1 = AppCore.getInstance().getDusicPlayer().getDeclarations().getMaxTo();
+				    	
+				    	if(AppCore.getInstance().getBabicPlayer().getDeclarations().getMaxValue() == maxTim2)
+				    		maxToTim2 = AppCore.getInstance().getBabicPlayer().getDeclarations().getMaxTo();
+				    	if(AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxValue() == maxTim2 &&
+				    			AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxTo() > maxToTim2)
+				    		maxToTim2 = AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxTo();
+				    	
+				    	if(maxToTim1 > maxToTim2)
+				    		System.out.println("javlja tim 1");
+				    	else if(maxToTim1 < maxToTim2)
+				    		System.out.println("javlja tim 2");
+				    	else{
+				    		System.out.println("videcemo");
+				    	}
+				    }
+				}
+				
+			}
 		}
 		
 		flowControl();
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void flowControl(){
-		
-		if(Flags.DIALOG_PRESTEP){
-			Flags.DIALOG_PRESTEP = false;
-			Flags.PLAYER1_TO_CHOOSE = true;
-			return;
-		}
-		
 		if(Flags.CALCULATE_DECK_RESULT){
-			
+			if(AppCore.fullTeam1Score > 1001 && AppCore.fullTeam2Score > 1001){
+				if(AppCore.fullTeam1Score > AppCore.fullTeam2Score){
+					System.out.println("Pobedio tim 1");
+				}else{
+					System.out.println("Pobedio tim 2");
+				}
+				System.exit(1);
+			}else{
+				if(AppCore.fullTeam1Score > 1001){
+					System.out.println("Pobedio tim 1");
+					System.exit(1);
+				}else if(AppCore.fullTeam2Score > 1001){
+					System.out.println("Pobdeio tim 2");
+					System.exit(1);
+				}else{
+					Flags.CALCULATE_DECK_RESULT = false;
+					Flags.DEAL_24_PREFASE = true;
+					AppCore.adut = 0;
+					int lastDeal = Flags.ON_DEAL;
+					if(lastDeal == 4){
+						Flags.ON_DEAL = 1;
+						AppCore.getInstance().setFirstToPlay(2);
+					}else{
+						Flags.ON_DEAL = lastDeal + 1;
+						if(Flags.ON_DEAL == 4){
+							AppCore.getInstance().setFirstToPlay(1);
+						}else{
+							AppCore.getInstance().setFirstToPlay(Flags.ON_DEAL + 1);
+						}
+					}
+				}
+			}
 		}
 		
 		if(Flags.CALCULATE_CIRCLE_RESULT){
@@ -270,7 +373,19 @@ public class MainState extends BasicGameState{
 					}else{
 						AppCore.team2Score += 10;
 					}
-					
+					if(AppCore.zvaoAduta == 1 || AppCore.zvaoAduta == 3){
+						if(AppCore.team1Score < AppCore.fullScore/2){
+							AppCore.team2Score = 162;
+							AppCore.team1Score = 0;
+						}
+					}else{
+						if(AppCore.team2Score < AppCore.fullScore/2){
+							AppCore.team1Score = 162;
+							AppCore.team2Score = 0;
+						}
+					}
+					AppCore.fullTeam1Score += AppCore.team1Score;
+					AppCore.fullTeam2Score += AppCore.team2Score;
 			}else{
 				Flags.ONE_CIRCLE_PHASE = true;
 			}
@@ -325,33 +440,6 @@ public class MainState extends BasicGameState{
 			Flags.DECLARATION_PRESTEP = false;
 			Flags.DECLARATIONS = true;
 		}
-		
-		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
-			Flags.DEAL_24 = false;
-			
-			if(AppCore.getInstance().getFirstToPlay() == 1)
-				Flags.HUMAN_TO_CHOOSE = true;
-			else if(AppCore.getInstance().getFirstToPlay() == 2)
-				Flags.PLAYER1_TO_CHOOSE = true;
-			else if(AppCore.getInstance().getFirstToPlay() == 3)
-				Flags.PLAYER2_TO_CHOOSE = true;
-			else
-				Flags.PLAYER3_TO_CHOOSE = true;
-		}
-		
-		else if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
-			Flags.DEAL_32 = false;
-			
-			Flags.PLAYER1_TO_CHOOSE = false;
-			Flags.PLAYER2_TO_CHOOSE = false;
-			Flags.PLAYER3_TO_CHOOSE = false;
-			Flags.HUMAN_TO_CHOOSE = false;
-			
-			Flags.HUMAN_TO_DROP_CARD = true;
-			Flags.DECLARATION_PRESTEP = true;
-			AppCore.getInstance().runThroughCards();
-		}
-		
 		else if(Flags.PLAYER3_TO_CHOOSE){
 			Flags.PLAYER3_TO_CHOOSE = false;
 			if(AppCore.adut == 0)
@@ -369,6 +457,39 @@ public class MainState extends BasicGameState{
 			if(AppCore.adut == 0) {
 				Flags.PLAYER2_TO_CHOOSE = true;
 			}
+		}
+		if(Flags.DIALOG_PRESTEP){
+			Flags.DIALOG_PRESTEP = false;
+			Flags.PLAYER1_TO_CHOOSE = true;
+			return;
+		}
+		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
+			Flags.DEAL_24 = false;
+			
+			if(AppCore.getInstance().getFirstToPlay() == 1)
+				Flags.HUMAN_TO_CHOOSE = true;
+			else if(AppCore.getInstance().getFirstToPlay() == 2)
+				Flags.PLAYER1_TO_CHOOSE = true;
+			else if(AppCore.getInstance().getFirstToPlay() == 3)
+				Flags.PLAYER2_TO_CHOOSE = true;
+			else
+				Flags.PLAYER3_TO_CHOOSE = true;
+		}
+		if(Flags.DEAL_24_PREFASE){
+			Flags.DEAL_24 = true;
+			Flags.DEAL_24_PREFASE = false;
+		}
+		else if(Flags.DEAL_32){					// ako si podelio 32 karte, ne mozes vise da delis 32 karte
+			Flags.DEAL_32 = false;
+			
+			Flags.PLAYER1_TO_CHOOSE = false;
+			Flags.PLAYER2_TO_CHOOSE = false;
+			Flags.PLAYER3_TO_CHOOSE = false;
+			Flags.HUMAN_TO_CHOOSE = false;
+			
+			Flags.HUMAN_TO_DROP_CARD = true;
+			Flags.DECLARATION_PRESTEP = true;
+			AppCore.getInstance().runThroughCards();
 		}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -425,8 +546,18 @@ public class MainState extends BasicGameState{
 					new Point(Flags.CARD_OFFSET_X + currentOffset, Flags.WINDOW_HEIGHT), new Point(Flags.CARD_OFFSET_X + currentOffset + Flags.CARD_WIDTH, Flags.WINDOW_HEIGHT), AppCore.getInstance().getHumanPlayer().getCardAt(i).getCardImage());
 			currentOffset += Flags.CARD_WIDTH + Flags.CARD_INCREMENT_OFFSET;
 			if(cardRec.isPressed(MOUSE_X, MOUSE_Y)){
-				AppCore.getInstance().getHumanPlayer().playCard(i);
-				return;
+				if(!droppedCards.isEmpty()){
+					ArrayList<Card> legal = AppCore.getInstance().getHumanPlayer().getLegalCards();
+					Card playedCard = AppCore.getInstance().getHumanPlayer().getCardAt(i);
+					for(int j=0;	j<legal.size();	j++){
+						if(playedCard.getCardSuit() == legal.get(j).getCardSuit() && playedCard.getCardValue() == legal.get(j).getCardValue()){
+							AppCore.getInstance().getHumanPlayer().playCard(i);
+							return;
+						}
+					}
+				}else{
+					AppCore.getInstance().getHumanPlayer().playCard(i);
+				}
 			}
 		}
 		
@@ -443,7 +574,7 @@ public class MainState extends BasicGameState{
 		changeAdutCorner(g);
 		drawDownCards(g);
 		if(Flags.HUMAN_TO_CHOOSE){
-			drawHumanPickAdut(true, g);
+			drawHumanPickAdut(g);
 		}
 		
 		if(Flags.PLAYER1_TO_CHOOSE){
@@ -489,13 +620,24 @@ public class MainState extends BasicGameState{
 		ufont.drawString(Flags.WINDOW_WIDTH/2 - 220, Flags.WINDOW_HEIGHT/2 - 40, "Player" + player + " to choose adut");
 	}
 	
-	private void drawHumanPickAdut(boolean humanOnAdut,Graphics g){
+	private void drawHumanPickAdut(Graphics g){
 		pickAdutDialog.drawDialog(g);
 	}
 	
 	private void changeAdutCorner(Graphics g){
 		int gdeX = Flags.WINDOW_WIDTH - Flags.CHOSEN_ADUT_ICON_WIDTH;
 		int gdeY = Flags.WINDOW_HEIGHT - Flags.CHOSEN_ADUT_ICON_HEIGHT;
+		if(AppCore.zvaoAduta == 0){
+			calledAdut = "None";
+		}else if(AppCore.zvaoAduta == Flags.COMP_LEFT_ON_PLAY){
+			calledAdut = "Djuka";
+		}else if(AppCore.zvaoAduta == Flags.COMP_TOP_ON_PLAY){
+			calledAdut = "Duka";
+		}else if(AppCore.zvaoAduta == Flags.COMP_RIGHT_ON_PLAY){
+			calledAdut = "Babson";
+		}else{
+			calledAdut = "Human";
+		}
 		switch(AppCore.adut){
 			case 0:	{
 				g.drawImage(noAdut, gdeX, gdeY);
@@ -518,6 +660,7 @@ public class MainState extends BasicGameState{
 				break;
 			}
 		}
+		g.drawString(calledAdut, gdeX, gdeY- 26);
 	}
 	
 	private void drawLeftCards(Graphics g) throws SlickException{
