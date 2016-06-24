@@ -23,6 +23,7 @@ import sun.applet.Main;
 
 public class AppCore {
 	public static int adut = 0; // 1 - srce, 2 - tikva, 3 - list, 4 - zir
+	public static int zvaoAduta = 0;	//1 human - 2 right - 3 top - 4 left
 	private static AppCore instance;
 	
 	private static ArrayList<Card> cards;
@@ -42,6 +43,7 @@ public class AppCore {
 	
 	
 	//TEST SCORE
+	public static int fullScore = 0;
 	public static int cicrcleScore = 0;
 	public static int team1Score = 0;
 	public static int team2Score = 0;
@@ -160,6 +162,7 @@ public class AppCore {
 			e.printStackTrace();
 		}					
 		Collections.shuffle(cards, new Random(seed));	//promesaj sve karte
+		fullScore = 162;
 	}
 	public void initCards() throws SlickException{
 		cards.add(new Card("Srce 7",0,Flags.SRCE,7,new Image("Karte/SRCE_7.jpg"),new Image("Karte/SRCE_7.jpg")));

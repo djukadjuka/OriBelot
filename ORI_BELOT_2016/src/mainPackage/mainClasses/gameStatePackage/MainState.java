@@ -270,6 +270,7 @@ public class MainState extends BasicGameState{
 					}else{
 						AppCore.team2Score += 10;
 					}
+					
 			}else{
 				Flags.ONE_CIRCLE_PHASE = true;
 			}
