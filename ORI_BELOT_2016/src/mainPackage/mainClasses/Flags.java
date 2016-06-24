@@ -14,7 +14,6 @@ public class Flags {
 	public static boolean PLAYER1_TO_DROP_CARD = false;
 	public static boolean PLAYER2_TO_DROP_CARD = false;
 	public static boolean PLAYER3_TO_DROP_CARD = false;
-	public static boolean DEAL_24_PREFASE = false;
 	
 	//KO IGRA
 	public static int ON_PLAY = 0;
@@ -38,6 +37,7 @@ public class Flags {
 	public static boolean ONE_CIRCLE_PHASE = false;
 	public static boolean CLEAR_CARDS_ON_TABLE_PHASE = false;
 	public static boolean CONFIG_FIRST_NO_DEAL = false;
+	public static boolean DEAL_24_PREFASE = false;
 	
 	public static boolean HUMAN_TO_PLAY = false;
 	public static boolean COMP_RIGHT_TO_PLAY = false;
