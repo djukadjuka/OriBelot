@@ -38,6 +38,7 @@ public class Flags {
 	public static boolean ONE_CIRCLE_PHASE = false;
 	public static boolean CLEAR_CARDS_ON_TABLE_PHASE = false;
 	public static boolean CONFIG_FIRST_NO_DEAL = false;
+	public static boolean DEAL_24_PREFASE = false;
 	
 	public static boolean HUMAN_TO_PLAY = false;
 	public static boolean COMP_RIGHT_TO_PLAY = false;

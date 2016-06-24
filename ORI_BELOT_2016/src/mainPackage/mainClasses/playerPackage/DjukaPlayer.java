@@ -282,8 +282,10 @@ public class DjukaPlayer implements Player{
 		ArrayList<Card> ret = new ArrayList<Card>();
 		Card najjacaUBojiNaPolju = null;
 		for(Card c : MainState.droppedCards.values()){
-			if(najjacaUBojiNaPolju == null && c.getCardSuit() == boja){
-				najjacaUBojiNaPolju = c;
+			if(najjacaUBojiNaPolju == null){
+				if(c.getCardSuit() == boja){
+					najjacaUBojiNaPolju = c;
+				}
 			}else if(najjacaUBojiNaPolju.getCardValue() < c.getCardValue() && c.getCardSuit() == boja){
 				najjacaUBojiNaPolju = c;
 			}
