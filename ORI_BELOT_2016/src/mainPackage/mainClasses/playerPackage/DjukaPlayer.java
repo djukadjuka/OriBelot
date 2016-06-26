@@ -73,16 +73,18 @@ public class DjukaPlayer extends Player{
 		}else{
 			legalCards = getLegalCards();
 		}
-		MainState.droppedCards.put(Flags.COMP_LEFT_ON_PLAY, legalCards.remove(0));
-		Card targetCard = MainState.droppedCards.get(Flags.COMP_LEFT_ON_PLAY);
+		Card dropped = legalCards.remove(0);
 		
-		for(int i=0;	i<playerCards.size();	i++){
-			if(playerCards.get(i).getCardSuit() == targetCard.getCardSuit() &&
-				playerCards.get(i).getCardNumber() == targetCard.getCardNumber()	){
+		MainState.droppedCards.put(Flags.COMP_LEFT_ON_PLAY, dropped);
+
+		for (int i = 0; i < playerCards.size(); i++) {
+			if (playerCards.get(i).getCardSuit() == dropped.getCardSuit()
+					&& playerCards.get(i).getCardNumber() == dropped.getCardNumber()) {
 				playerCards.remove(i);
 				break;
 			}
-		}		
+		}
+				
 		MainState.leftCardNumber--;
 		AppCore.getInstance().setNextToPlay(Flags.HUMAN_ON_PLAY);
 		if(AppCore.getInstance().getFirstToPlay() == Flags.COMP_LEFT_ON_PLAY){

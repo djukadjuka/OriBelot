@@ -2,10 +2,13 @@ package mainPackage.mainClasses.playerPackage;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.SlickException;
+
 import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
+import mainPackage.mainClasses.searchPackage.FinalStateTry;
 
 public class BabicPlayer extends Player {
 	
@@ -75,16 +78,29 @@ public class BabicPlayer extends Player {
 		} else {
 			legalCards = getLegalCards();
 		}
-		MainState.droppedCards.put(Flags.COMP_RIGHT_ON_PLAY, legalCards.remove(0));
-		Card targetCard = MainState.droppedCards.get(Flags.COMP_RIGHT_ON_PLAY);
+		
+		ArrayList<FinalStateTry> startStates = new ArrayList<>();
+		for(int i=0;	i<legalCards.size();	i++){
+			/*startStates.add(new BasicState(null,null,legalCards.get(i),Flags.COMP_RIGHT_ON_PLAY,Flags.COMP_TOP_ON_PLAY));*/
+			startStates.add(new FinalStateTry(Flags.COMP_RIGHT_ON_PLAY, legalCards.get(i), playerCards, null, Flags.COMP_RIGHT_ON_PLAY));
+			startStates.get(i).simulate();
+			//System.out.println("\nFor card : " + legalCards.get(i));
+			//System.out.println("\t|Rounds played : " + startStates.get(i).getRoundsPlayed());
+			//System.out.println("\t|Rounds Won : " + startStates.get(i).getRoundsWon());
+		}
+		
+		Card dropped = legalCards.remove(0);
+		
+		MainState.droppedCards.put(Flags.COMP_RIGHT_ON_PLAY, dropped);
 
 		for (int i = 0; i < playerCards.size(); i++) {
-			if (playerCards.get(i).getCardSuit() == targetCard.getCardSuit()
-					&& playerCards.get(i).getCardNumber() == targetCard.getCardNumber()) {
+			if (playerCards.get(i).getCardSuit() == dropped.getCardSuit()
+					&& playerCards.get(i).getCardNumber() == dropped.getCardNumber()) {
 				playerCards.remove(i);
 				break;
 			}
 		}
+		
 		MainState.rightCardNumber--;
 		AppCore.getInstance().setNextToPlay(Flags.COMP_TOP_ON_PLAY);
 		if (AppCore.getInstance().getFirstToPlay() == Flags.COMP_RIGHT_ON_PLAY) {

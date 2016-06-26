@@ -45,6 +45,7 @@ public class MainState extends BasicGameState{
 	public static int MOUSE_Y;
 	public static int leftCardNumber=0,topCardNumber=0,rightCardNumber=0;
 	
+	public static HashMap<String,Card> deadCards = new HashMap<String,Card>();
 	public static String player1Choise;
 	public static String player2Choise;
 	public static String player3Choise;
@@ -250,19 +251,13 @@ public class MainState extends BasicGameState{
 		
 		if(Flags.DECLARATIONS){
 			zvanja = "";
-			System.out.println("human");
 			AppCore.getInstance().getHumanPlayer().handleDeclarations();
 			
-			System.out.println("babic");
 			AppCore.getInstance().getBabicPlayer().handleDeclarations();
 			
-			System.out.println("dusic");
-			AppCore.getInstance().getDusicPlayer().handleDeclarations();
 			
-			System.out.println("djuka");
 			AppCore.getInstance().getDjukaPlayer().handleDeclarations();
 			
-			System.out.println("--------------------------------");
 			
 			// ako postoje javljanja
 			if(!(AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount() == 0 &&
@@ -273,12 +268,10 @@ public class MainState extends BasicGameState{
 				// javlja tim 2
 				if(AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount() == 0 &&
 						AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount() ==0){
-					System.out.println("javlja tim 2");
 					addDeclTo2Score();
 				} // javlja tim 1
 				else if(AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount() == 0 &&
 						AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount() == 0){
-					System.out.println("javlja tim 1");
 					addDeclTo1Score();
 				} // pita se ko ima jace javljanje 
 				else{
@@ -295,11 +288,9 @@ public class MainState extends BasicGameState{
 					
 				    // javlja tim1
 				    if(maxTim1 > maxTim2){
-				    	System.out.println("javlja tim 1");
 				    	addDeclTo1Score();
 				    } // javlja tim2 
 				    else if(maxTim1 < maxTim2){
-				    	System.out.println("javlja tim 2");
 				    	addDeclTo2Score();
 				    } // pitamo se ko ima do vece karte 
 				    else{
@@ -319,14 +310,12 @@ public class MainState extends BasicGameState{
 				    		maxToTim2 = AppCore.getInstance().getDjukaPlayer().getDeclarations().getMaxTo();
 				    	
 				    	if(maxToTim1 > maxToTim2){
-				    		System.out.println("javlja tim 1");
 				    		addDeclTo1Score();
 				    	}
 				    	else if(maxToTim1 < maxToTim2){
 				    		addDeclTo2Score();
 				    	}
 				    	else{
-				    		System.out.println("videcemo");
 				    	}
 				    }
 				}
@@ -473,6 +462,17 @@ public class MainState extends BasicGameState{
 			if(droppedCards.size()==4){
 				Flags.ONE_CIRCLE_PHASE = false;
 				Flags.CONFIG_FIRST_NO_DEAL = true;
+				for(Card c : droppedCards.values()){						//NAPUNI PROSLE KARTE TEK KAD PRODJU
+					deadCards.put(c.getCardName(), c);
+				}
+				int ind = 0;
+				for(Card c : deadCards.values()){
+					if(ind%4 == 0){
+						System.out.println("\n=============================");
+					}
+					System.out.print(c + " ");
+					ind ++;
+				}
 			}
 		}
 		
@@ -526,6 +526,7 @@ public class MainState extends BasicGameState{
 			return;
 		}
 		if(Flags.DEAL_24){					//ako si podelio 24 karte, ne mozes vise 24 karte da delis i human moze da bira aduta (za sad..)
+			deadCards.clear();
 			Flags.DEAL_24 = false;
 			
 			if(AppCore.getInstance().getFirstToPlay() == 1)

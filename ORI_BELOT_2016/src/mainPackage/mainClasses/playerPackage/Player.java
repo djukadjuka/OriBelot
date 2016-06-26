@@ -18,6 +18,10 @@ public abstract class Player {
 	protected int srceInd, tikvaInd, listInd, zirInd;
 	protected Declaration declarations = new Declaration();
 	
+	public ArrayList<Card> getAllCards(){
+		return playerCards;
+	}
+	
 	public void runThrough(){
 		for(int i=0;	i<8;	i++){
 			if(playerCards.get(i).getCardSuit() == AppCore.adut){
@@ -101,6 +105,8 @@ public abstract class Player {
 
 	public boolean seceno(){
 		for(Card card : MainState.droppedCards.values()){
+			/*System.out.println(card);
+			System.out.println(AppCore.adut);*/
 			if(card.getCardSuit() == AppCore.adut){
 				return true;
 			}
@@ -152,7 +158,6 @@ public abstract class Player {
 		for(Card c : playerCards){
 			if(c.getCardValue() > najjacaUBojiNaPolju.getCardValue() && c.getCardSuit() == boja){
 				ret.add(c);
-				System.out.println(c);
 			}
 		}
 		return ret;
@@ -160,64 +165,42 @@ public abstract class Player {
 	
 	public ArrayList<Card> getLegalCards(){
 		Card firstCard = MainState.droppedCards.get(AppCore.getInstance().getFirstToPlay());
-		System.out.println(firstCard);
-		System.out.println("\nBabiscese : ");
 		if(firstCard.getCardSuit() == AppCore.adut){			// adut
-			System.out.print("-Adut dole");
 			if(imaAduta()){										//ima aduta
-				System.out.print("-ima aduta");
 				if(imaJacegAduta()){							//ima jaceg aduta
-					System.out.print("-ima jaceg");
 					return dajJaceAdute();
 				}else{											//nema jaceg aduta
-					System.out.print("-nema jaceg");
 					return dajSveAdute();
 				}
 			}else{												//nema aduta
-				System.out.print("-nema aduta");
 				return playerCards;
 			}
 		}else{							//nije adut
-			System.out.print("-Prva nije adut");
 			if(seceno()){			//seceno
-				System.out.print("-neko seko");
 				if(imaBoju()){									//ima boju
-					System.out.print("-ima boju");
 					return dajSveUBoji(firstCard.getCardSuit());
 				}else{											//nema boju
-					System.out.print("-nema boju");
 					if(imaAduta()){								//ima aduta
-						System.out.print("-ima aduta");
 						if(imaJacegAduta()){
-							System.out.print("-ima jaceg aduta");
 							return dajJaceAdute();
 						}else{
-							System.out.print("-nema jaceg aduta");
 							return dajSveAdute();
 						}
 					}else{										//nema aduta
-						System.out.print("-mane aduta");
 						return playerCards;
 					}
 				}
 			}else{												//neseceno
-				System.out.print("-niko seko");
 				if(imaBoju()){
-					System.out.print("-ima boju");
 					if(imaJacuBoju(firstCard.getCardSuit())){
-						System.out.print("-ima jacu boju");
 						return dajSveJaceUBoji(firstCard.getCardSuit());
 					}else{
-						System.out.print("-nema jacu boju");
 						return dajSveUBoji(firstCard.getCardSuit());
 					}
 				}else{
-					System.out.print("-nema boju");
 					if(imaAduta()){
-						System.out.print("-ima aduta");
 						return dajSveAdute();
 					}else{
-						System.out.print("-mane aduta");
 						return playerCards;
 					}
 				}
@@ -278,38 +261,28 @@ public abstract class Player {
 		}
 		// ---------------------------
 		if (declarationFourSame(10)) {
-			System.out.println("4 setke");
 			declarations.addDeclaration(100, -1, 10);
 		}
 		if (declarationFourSame(13)) {
-			System.out.println("4 kuje");
 			declarations.addDeclaration(100, -1, 13);
 		}
 		if (declarationFourSame(14)) {
-			System.out.println("4 kralja");
 			declarations.addDeclaration(100, -1, 14);
 		}
 		if (declarationFourSame(15)) {
-			System.out.println("4 keca");
 			declarations.addDeclaration(100, -1, 15);
 		}
 		if (declarationFourSame(9)) {
-			System.out.println("4 vetke");
 			declarations.addDeclaration(150, -1, -1);
 		}
 		if (declarationFourSame(12)) {
-			System.out.println("4 cacana");
 			declarations.addDeclaration(200, -1, -1);
 		}
 		// -----------------------------
 
-		System.out.println("srce:");
 		declaration20_50_100(srceInd, tikvaInd, Flags.SRCE);
-		System.out.println("tikva:");
 		declaration20_50_100(tikvaInd, listInd, Flags.TIKVA);
-		System.out.println("list:");
 		declaration20_50_100(listInd, zirInd, Flags.LIST);
-		System.out.println("zir:");
 		declaration20_50_100(zirInd, playerCards.size(), Flags.ZIR);
 
 	}
@@ -398,10 +371,10 @@ public abstract class Player {
 			declarations.addDeclaration(100, playerCards.get(i - 1).getCardNumber(), suit);
 		}
 
-		for (int j = 0; j < dec.size(); j++) {
+/*		for (int j = 0; j < dec.size(); j++) {
 			System.out.println(dec.get(j) + " " + to.get(j));
 		}
-
+*/
 	}
 
 	public Declaration getDeclarations() {
@@ -477,33 +450,5 @@ public abstract class Player {
 		}
 
 	}
-	
-	/*public void makePlayableCards(Card card,int AdutColor){
-		boolean flag = false;
-		for(int i = 0; i < playerCards.size(); i++){
-			Card c = playerCards.get(i);
-			if(card.getCardSuit() == c.getCardSuit()){
-				c.setPlayable(true);
-				flag = true;
-			}
-		}
-		boolean flag1 = false;
-		
-		if(flag == false){
-			for(int i = 0; i < playerCards.size(); i++){
-				Card c = playerCards.get(i);
-				if(c.isAdut(AdutColor)){
-					c.setPlayable(true);
-					flag1 = true;
-				}
-			}
-		}	
-		if(flag1 == false){
-			for(int i = 0; i < playerCards.size(); i++){
-				Card c = playerCards.get(i);
-				c.setPlayable(true);
-			}
-		}
-	}*/
 	
 }

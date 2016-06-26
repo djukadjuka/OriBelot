@@ -438,13 +438,10 @@ public class HumanPlayer {
 	}
 
 	public void playCard(int i) {
-		MainState.droppedCards.put(Flags.HUMAN_ON_PLAY, this.playerCards.remove(i));
-		/*
-		 * if(AppCore.getInstance().getLastToPlay() == Flags.HUMAN_ON_PLAY){
-		 * ///ovo je regulisano u flow control Flags.ONE_CIRCLE_PHASE = false;
-		 * }else{ AppCore.getInstance().setNextToPlay(Flags.COMP_RIGHT_ON_PLAY);
-		 * }
-		 */
+		Card dropped = playerCards.remove(i);
+		
+		MainState.droppedCards.put(Flags.HUMAN_ON_PLAY, dropped);
+	
 		AppCore.getInstance().setNextToPlay(Flags.COMP_RIGHT_ON_PLAY);
 		if (AppCore.getInstance().getFirstToPlay() == Flags.HUMAN_ON_PLAY) {
 			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.HUMAN_ON_PLAY).getCardSuit());

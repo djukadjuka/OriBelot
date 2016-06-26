@@ -75,23 +75,20 @@ public class DusicPlayer extends Player {
 		} else {
 			legalCards = getLegalCards();
 		}
-		MainState.droppedCards.put(Flags.COMP_TOP_ON_PLAY, legalCards.remove(0));
-		Card targetCard = MainState.droppedCards.get(Flags.COMP_TOP_ON_PLAY);
+		Card dropped = legalCards.remove(0);
+		
+		MainState.droppedCards.put(Flags.COMP_TOP_ON_PLAY, dropped);
 
 		for (int i = 0; i < playerCards.size(); i++) {
-			if (playerCards.get(i).getCardSuit() == targetCard.getCardSuit()
-					&& playerCards.get(i).getCardNumber() == targetCard.getCardNumber()) {
+			if (playerCards.get(i).getCardSuit() == dropped.getCardSuit()
+					&& playerCards.get(i).getCardNumber() == dropped.getCardNumber()) {
 				playerCards.remove(i);
 				break;
 			}
 		}
+		
 		MainState.topCardNumber--;
-
-		/*
-		 * if(AppCore.getInstance().getLastToPlay() == Flags.COMP_TOP_ON_PLAY){
-		 * Flags.ONE_CIRCLE_PHASE = false; }else{
-		 * AppCore.getInstance().setNextToPlay(Flags.COMP_LEFT_ON_PLAY); }
-		 */
+		
 		AppCore.getInstance().setNextToPlay(Flags.COMP_LEFT_ON_PLAY);
 		if (AppCore.getInstance().getFirstToPlay() == Flags.COMP_TOP_ON_PLAY) {
 			AppCore.getInstance().setColorDown(MainState.droppedCards.get(Flags.COMP_TOP_ON_PLAY).getCardSuit());
