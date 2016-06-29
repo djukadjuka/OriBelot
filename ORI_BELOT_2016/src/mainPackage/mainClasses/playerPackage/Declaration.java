@@ -55,16 +55,18 @@ public class Declaration {
 		return to.get(index);
 	}
 
-	public String getSuitAt(int index) {
-		int suitT = suit.get(index);
-		if(suitT == Flags.ZIR){
-			return "CLUBS";
+	public int getSuitAt(int index) {
+		return suit.get(index);
+		/*if(suitT == Flags.ZIR){
+			return suit;
 		}else if(suitT == Flags.SRCE){
 			return "HEARTS";
 		}else if(suitT == Flags.TIKVA){
 			return "PUMPKINS";
-		}else{
+		}else if(suitT == Flags.LIST){
 			return "SPADES";
-		}
+		}else{
+			return "";
+		}*/
 	}
 }

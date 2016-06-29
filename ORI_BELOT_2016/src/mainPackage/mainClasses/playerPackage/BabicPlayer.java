@@ -9,6 +9,8 @@ import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
 import mainPackage.mainClasses.searchPackage.FinalStateTry;
+import mainPackage.mainClasses.supportPackage.Percent;
+import mainPackage.mainClasses.supportPackage.PercentagePacker;
 
 public class BabicPlayer extends Player {
 	
@@ -79,17 +81,36 @@ public class BabicPlayer extends Player {
 			legalCards = getLegalCards();
 		}
 		
-		ArrayList<FinalStateTry> startStates = new ArrayList<>();
+		System.out.println("\n=============================\nBabic");
+		ArrayList<FinalStateTry> states = new ArrayList<>();
+		PercentagePacker packer = new PercentagePacker();
 		for(int i=0;	i<legalCards.size();	i++){
-			/*startStates.add(new BasicState(null,null,legalCards.get(i),Flags.COMP_RIGHT_ON_PLAY,Flags.COMP_TOP_ON_PLAY));*/
-			startStates.add(new FinalStateTry(Flags.COMP_RIGHT_ON_PLAY, legalCards.get(i), playerCards, null, Flags.COMP_RIGHT_ON_PLAY));
-			startStates.get(i).simulate();
-			//System.out.println("\nFor card : " + legalCards.get(i));
-			//System.out.println("\t|Rounds played : " + startStates.get(i).getRoundsPlayed());
-			//System.out.println("\t|Rounds Won : " + startStates.get(i).getRoundsWon());
+			Card c = legalCards.get(i);
+			Percent targetPerc = new Percent(c);
+			targetPerc.setCardIndex(i);
+			packer.getPercentages().add(targetPerc);
+			states.add(new FinalStateTry(Flags.COMP_RIGHT_ON_PLAY, c, playerCards, null, Flags.COMP_RIGHT_ON_PLAY, Flags.SEARCH_NO_MOD, 0));
 		}
 		
-		Card dropped = legalCards.remove(0);
+		for(int i=0;	i<states.size();	i++){
+			states.get(i).simulate();
+			packer.getPercentages().get(i).setNumberOfPoints(states.get(i).getPointsWon());
+			packer.getPercentages().get(i).setPercentage(
+														 (float)states.get(i).getPointsWon()/
+														 (float)states.get(i).getRoundsPlayed());
+			System.out.println(packer.getPercentages().get(i));
+		}
+		
+		System.out.println(packer.getMaximumPercentageIndex() + "<-- Max percentage index");
+		System.out.println(packer.getMinimumPercentageIndex() + "<-- Min percentage index");
+		System.out.println(packer.getMaximumPercent().getPercentage() + "% <-- Max percentage");
+		System.out.println(packer.getMinimumPercent().getPercentage() + "% <-- Min percentage");
+		System.out.println("\n===========================");
+		
+		int index = 0;
+		index = packer.getMaximumPercentageIndex();
+		
+		Card dropped = legalCards.remove(index);
 		
 		MainState.droppedCards.put(Flags.COMP_RIGHT_ON_PLAY, dropped);
 

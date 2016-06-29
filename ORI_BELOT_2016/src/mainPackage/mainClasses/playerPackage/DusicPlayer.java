@@ -6,6 +6,9 @@ import mainPackage.mainClasses.AppCore;
 import mainPackage.mainClasses.Card;
 import mainPackage.mainClasses.Flags;
 import mainPackage.mainClasses.gameStatePackage.MainState;
+import mainPackage.mainClasses.searchPackage.FinalStateTry;
+import mainPackage.mainClasses.supportPackage.Percent;
+import mainPackage.mainClasses.supportPackage.PercentagePacker;
 
 public class DusicPlayer extends Player {
 
@@ -75,10 +78,49 @@ public class DusicPlayer extends Player {
 		} else {
 			legalCards = getLegalCards();
 		}
-		Card dropped = legalCards.remove(0);
+		
+		System.out.println("\n=============================\nBabic");
+		ArrayList<FinalStateTry> states = new ArrayList<>();
+		PercentagePacker packer = new PercentagePacker();
+		for(int i=0;	i<legalCards.size();	i++){
+			Card c = legalCards.get(i);
+			Percent targetPerc = new Percent(c);
+			targetPerc.setCardIndex(i);
+			packer.getPercentages().add(targetPerc);
+			states.add(new FinalStateTry(Flags.COMP_TOP_ON_PLAY, c, playerCards, null, Flags.COMP_TOP_ON_PLAY, Flags.SEARCH_NO_MOD, 0));
+		}
+		
+		for(int i=0;	i<states.size();	i++){
+			states.get(i).simulate();
+			packer.getPercentages().get(i).setNumberOfPoints(states.get(i).getPointsWon());
+			packer.getPercentages().get(i).setPercentage(
+														 (float)states.get(i).getRoundsWon()/
+														 (float)states.get(i).getRoundsPlayed());
+			System.out.println(packer.getPercentages().get(i));
+		}
+		System.out.println(packer.getMaximumPercentageIndex() + "<-- Max percentage index");
+		System.out.println(packer.getMinimumPercentageIndex() + "<-- Min percentage index");
+		System.out.println(packer.getMaximumPercent().getPercentage() + "% <-- Max percentage");
+		System.out.println(packer.getMinimumPercent().getPercentage() + "% <-- Min percentage");
+		System.out.println("\n===========================");
+		
+		int index = 0;
+		if(packer.getIndex_MaxPtsTolr(90) != -1){
+			index = packer.getIndex_MaxPtsTolr(90);
+		}else{
+			for(int i=60;	i>=0;	i-=10){
+				if(packer.getIndex_MinPtsTolr(i) != -1){
+					index = packer.getIndex_MinPtsTolr(i);
+					break;
+				}
+			}
+		}
+		
+		Card dropped = legalCards.remove(index);
 		
 		MainState.droppedCards.put(Flags.COMP_TOP_ON_PLAY, dropped);
-
+		
+		
 		for (int i = 0; i < playerCards.size(); i++) {
 			if (playerCards.get(i).getCardSuit() == dropped.getCardSuit()
 					&& playerCards.get(i).getCardNumber() == dropped.getCardNumber()) {

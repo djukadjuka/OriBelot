@@ -34,7 +34,9 @@ public class MainState extends BasicGameState{
 	private Image tikvaAdut;
 	private Image srceAdut;
 	private Image noAdut;
-	
+	private String djuka = "Djuka";
+	private String duka = "Duka";
+	private String babson = "Babson";
 	//SLIKE
 	private Image backgroundImage;
 	
@@ -51,6 +53,9 @@ public class MainState extends BasicGameState{
 	public static String player3Choise;
 	public static String calledAdut = "";
 	public static String zvanja = "";
+	public int svaZvanja = 0;
+	public boolean zvao1 = false;
+	public boolean zvao2 = false;
 	
 	private UnicodeFont ufont = null;
 	
@@ -103,7 +108,10 @@ public class MainState extends BasicGameState{
 		//g.drawImage(backgroundImage,0,0);	//Prikaz backgrounda -> zakomentarisao da brze potera igru. vratiti na krajnjim testovima.
 		g.drawString("T1 : " + AppCore.team1Score + "| T2 : " + AppCore.team2Score + "\n" +
 					 "T1F : " + AppCore.fullTeam1Score + "| T2F : " + AppCore.fullTeam2Score,10,10);
-		g.drawString(zvanja, Flags.WINDOW_WIDTH-200, 10);
+		g.drawString(djuka, 10, Flags.WINDOW_HEIGHT/2 - Flags.CARD_BACK_V_HEIGHT/2 - 20);
+		g.drawString(babson, Flags.WINDOW_WIDTH - 60, Flags.WINDOW_HEIGHT/2 - Flags.CARD_BACK_V_HEIGHT/2 - 20);
+		g.drawString(duka, Flags.WINDOW_WIDTH/2 - Flags.CARD_BACK_H_WIDTH/2 - 60, 10);
+		g.drawString(zvanja, Flags.WINDOW_WIDTH-300, 10);
 		drawInterface(g);
 		drawCards(g);
 	}
@@ -316,6 +324,11 @@ public class MainState extends BasicGameState{
 				    		addDeclTo2Score();
 				    	}
 				    	else{
+				    		if(tim1ToPlay(maxTim1,maxToTim1)){
+				    			addDeclTo1Score();
+				    		} else{
+				    			addDeclTo2Score();
+				    		}
 				    	}
 				    }
 				}
@@ -338,41 +351,215 @@ public class MainState extends BasicGameState{
 				zvanja+="Human: ";
 			}
 			AppCore.team1Score += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i);
-			zvanja += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i) + " to " + 
-					AppCore.getInstance().getHumanPlayer().getDeclarations().getToAt(i) + " " + 
-					AppCore.getInstance().getHumanPlayer().getDeclarations().getSuitAt(i);
+			svaZvanja += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i) + " ";
+			int toAt = AppCore.getInstance().getHumanPlayer().getDeclarations().getToAt(i);
+			int suitAt = AppCore.getInstance().getHumanPlayer().getDeclarations().getSuitAt(i);
+			
+			if(toAt > 0){
+				zvanja += "to " + toAt + " ";
+			}
+			switch(suitAt){
+				case Flags.LIST :{
+					zvanja += " in spades.";
+					break;
+				}
+				case Flags.SRCE : {
+					zvanja += " in hearts.";
+					break;
+				}
+				case Flags.TIKVA :{
+					zvanja += " in pumpkinz.";
+					break;
+				}
+				case Flags.ZIR : {
+					zvanja += " in clubs.";
+					break;
+				}
+				case 10 :{
+					zvanja += " in tens.";
+					break;
+				}
+				case 13 :{
+					zvanja += " in Queens.";
+					break;
+				}
+				case 14 : {
+					zvanja += " in Kings.";
+					break;
+				}
+				case 15 : {
+					zvanja += " u Aces.";
+					break;
+				}
+				default:{
+					
+					break;
+				}
+			}
 		}
 		for(int i=0;	i<AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount();	i++){
 			if(i == 0){
 				zvanja+="\n\tDusic: ";
 			}
 			AppCore.team1Score += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i);
-			zvanja += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i) + " to " + 
-					AppCore.getInstance().getDusicPlayer().getDeclarations().getToAt(i)+ " " + 
-					AppCore.getInstance().getDusicPlayer().getDeclarations().getSuitAt(i);;
+			svaZvanja += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i) + " ";
+			int toAt = AppCore.getInstance().getDusicPlayer().getDeclarations().getToAt(i);
+			int suitAt = AppCore.getInstance().getDusicPlayer().getDeclarations().getSuitAt(i);
+			
+			if(toAt > 0){
+				zvanja += "to " + toAt + " ";
+			}
+			switch(suitAt){
+				case Flags.LIST :{
+					zvanja += " in spades.";
+					break;
+				}
+				case Flags.SRCE : {
+					zvanja += " in hearts.";
+					break;
+				}
+				case Flags.TIKVA :{
+					zvanja += " in pumpkinz.";
+					break;
+				}
+				case Flags.ZIR : {
+					zvanja += " in clubs.";
+					break;
+				}
+				case 10 :{
+					zvanja += " in tens.";
+					break;
+				}
+				case 13 :{
+					zvanja += " in Queens.";
+					break;
+				}
+				case 14 : {
+					zvanja += " in Kings.";
+					break;
+				}
+				case 15 : {
+					zvanja += " u Aces.";
+					break;
+				}
+				default:{
+					
+					break;
+				}
 		}
+		zvao1 = true;
 	}
-	
+}
+
 	public void addDeclTo2Score(){
-		zvanja += "Tim 1 :\n\t";
+		zvanja += "Tim 2 :\n\t";
 		for(int i=0;	i<AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount();	i++){
 			if(i == 0){
 				zvanja+="Djuka: ";
 			}
-			AppCore.team1Score += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i);
-			zvanja += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i) + " to " + 
-					AppCore.getInstance().getDjukaPlayer().getDeclarations().getToAt(i) + " " + 
-					AppCore.getInstance().getDjukaPlayer().getDeclarations().getSuitAt(i);;
+			AppCore.team2Score += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i);
+			svaZvanja += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i) + " ";
+			int toAt = AppCore.getInstance().getDjukaPlayer().getDeclarations().getToAt(i);
+			int suitAt = AppCore.getInstance().getDjukaPlayer().getDeclarations().getSuitAt(i);
+			
+			if(toAt > 0){
+				zvanja += "to " + toAt + " ";
+			}
+			switch(suitAt){
+				case Flags.LIST :{
+					zvanja += " in spades.";
+					break;
+				}
+				case Flags.SRCE : {
+					zvanja += " in hearts.";
+					break;
+				}
+				case Flags.TIKVA :{
+					zvanja += " in pumpkinz.";
+					break;
+				}
+				case Flags.ZIR : {
+					zvanja += " in clubs.";
+					break;
+				}
+				case 10 :{
+					zvanja += " in tens.";
+					break;
+				}
+				case 13 :{
+					zvanja += " in Queens.";
+					break;
+				}
+				case 14 : {
+					zvanja += " in Kings.";
+					break;
+				}
+				case 15 : {
+					zvanja += " u Aces.";
+					break;
+				}
+				default:{
+					
+					break;
+				}
+		}
 		}
 		for(int i=0;	i<AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount();	i++){
 			if(i == 0){
 				zvanja+="\n\tBabic: ";
 			}
-			AppCore.team1Score += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i);
-			zvanja += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i) + " to " + 
-					AppCore.getInstance().getBabicPlayer().getDeclarations().getToAt(i) + " " + 
-					AppCore.getInstance().getBabicPlayer().getDeclarations().getSuitAt(i);;
+			AppCore.team2Score += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i);
+			svaZvanja += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i);
+			zvanja += AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i) + " ";
+			int toAt = AppCore.getInstance().getBabicPlayer().getDeclarations().getToAt(i);
+			int suitAt = AppCore.getInstance().getBabicPlayer().getDeclarations().getSuitAt(i);
+			
+			if(toAt > 0){
+				zvanja += "to " + toAt + " ";
+			}
+			switch(suitAt){
+				case Flags.LIST :{
+					zvanja += " in spades.";
+					break;
+				}
+				case Flags.SRCE : {
+					zvanja += " in hearts.";
+					break;
+				}
+				case Flags.TIKVA :{
+					zvanja += " in pumpkinz.";
+					break;
+				}
+				case Flags.ZIR : {
+					zvanja += " in clubs.";
+					break;
+				}
+				case 10 :{
+					zvanja += " in tens.";
+					break;
+				}
+				case 13 :{
+					zvanja += " in Queens.";
+					break;
+				}
+				case 14 : {
+					zvanja += " in Kings.";
+					break;
+				}
+				case 15 : {
+					zvanja += " u Aces.";
+					break;
+				}
+				default:{
+					
+					break;
+				}
 		}
+		zvao2 = true;
+	}
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	private void flowControl(){
@@ -435,8 +622,24 @@ public class MainState extends BasicGameState{
 							AppCore.team2Score = 0;
 						}
 					}
+					if(zvao1){
+						if(AppCore.team1Score - svaZvanja == 0){
+							AppCore.team1Score = 0;
+							AppCore.team2Score = 162 + svaZvanja + 90;
+						}
+					}else if(zvao2){
+						if(AppCore.team2Score - svaZvanja == 0){
+							AppCore.team2Score = 0;
+							AppCore.team1Score = 162 + svaZvanja + 90;
+						}
+					}
 					AppCore.fullTeam1Score += AppCore.team1Score;
 					AppCore.fullTeam2Score += AppCore.team2Score;
+					
+					AppCore.team1Score = 0;
+					AppCore.team2Score = 0;
+					zvao1 = false;
+					zvao2 = false;
 			}else{
 				Flags.ONE_CIRCLE_PHASE = true;
 			}
@@ -627,8 +830,8 @@ public class MainState extends BasicGameState{
 	}
 
 	private void drawInterface(Graphics g) throws SlickException{
-		g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
-		g.drawImage(showResultButton.getImage(), showResultButton.getTopLeft().getX(), showResultButton.getTopLeft().getY());
+		//g.drawImage(resetButton.getImage(), resetButton.getTopLeft().getX(), resetButton.getTopLeft().getY());
+		//g.drawImage(showResultButton.getImage(), showResultButton.getTopLeft().getX(), showResultButton.getTopLeft().getY());
 		drawLeftCards(g);
 		drawRightCards(g);
 		drawTopCards(g);
@@ -762,6 +965,50 @@ public class MainState extends BasicGameState{
 		}else if(rightCardNumber == 1){
 			g.drawImage(new Image(Flags.CARD_BACK_1_V), Flags.WINDOW_WIDTH-Flags.CARD_BACK_V_WIDTH, Flags.WINDOW_HEIGHT/2-Flags.CARD_BACK_V_HEIGHT/2);
 		}
+	}
+	
+	public boolean tim1ToPlay(int maxValue,int maxTo){
+		
+		int player = AppCore.getInstance().getFirstToPlay();
+		
+		for(int j=0; j < 4; j++){
+			switch(player){
+			
+				case Flags.HUMAN_ON_PLAY :
+					for(int i=0; i < AppCore.getInstance().getHumanPlayer().getDeclarations().getDeclarationCount(); i++)
+						if(AppCore.getInstance().getHumanPlayer().getDeclarations().getValueAt(i) == maxValue &&
+								AppCore.getInstance().getHumanPlayer().getDeclarations().getToAt(i) == maxTo)
+							return true;
+					player = Flags.COMP_RIGHT_ON_PLAY;
+					break;
+				
+				case Flags.COMP_RIGHT_ON_PLAY :
+					for(int i=0; i < AppCore.getInstance().getBabicPlayer().getDeclarations().getDeclarationCount(); i++)
+						if(AppCore.getInstance().getBabicPlayer().getDeclarations().getValueAt(i) == maxValue &&
+								AppCore.getInstance().getBabicPlayer().getDeclarations().getToAt(i) == maxTo)
+							return false;
+					player = Flags.COMP_TOP_ON_PLAY;
+					break;
+				
+				case Flags.COMP_TOP_ON_PLAY :
+					for(int i=0; i < AppCore.getInstance().getDusicPlayer().getDeclarations().getDeclarationCount(); i++)
+						if(AppCore.getInstance().getDusicPlayer().getDeclarations().getValueAt(i) == maxValue &&
+								AppCore.getInstance().getDusicPlayer().getDeclarations().getToAt(i) == maxTo)
+							return true;
+					player = Flags.COMP_LEFT_ON_PLAY;
+					break;
+					
+				case Flags.COMP_LEFT_ON_PLAY :
+					for(int i=0; i < AppCore.getInstance().getDjukaPlayer().getDeclarations().getDeclarationCount(); i++)
+						if(AppCore.getInstance().getDjukaPlayer().getDeclarations().getValueAt(i) == maxValue &&
+								AppCore.getInstance().getDjukaPlayer().getDeclarations().getToAt(i) == maxTo)
+							return false;
+					player = Flags.HUMAN_ON_PLAY;
+					break;
+			}
+		}
+		
+		return false;
 	}
 	
 	private void drawTopCards(Graphics g) throws SlickException{

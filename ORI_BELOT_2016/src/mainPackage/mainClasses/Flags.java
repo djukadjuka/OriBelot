@@ -1,8 +1,14 @@
 package mainPackage.mainClasses;
 
 public class Flags {
+	//SEARCH FLAGOVI
+	public static final int SEARCH_NO_MOD = 0;
+	public static final int SEARCH_BEAM_MOD = 1;
+	
+	public static final int BEAM_DEPTH_MAX = 1;
+	public static final int BEAM_MAX = 3;
 	//KO DELI
-	public static int ON_DEAL = 0;
+	public static int ON_DEAL = 4;
 	
 	public static final int HUMAN_TO_DEAL = 1;
 	public static final int COMP_RIGHT_TO_DEAL = 2;
@@ -14,6 +20,9 @@ public class Flags {
 	public static boolean PLAYER1_TO_DROP_CARD = false;
 	public static boolean PLAYER2_TO_DROP_CARD = false;
 	public static boolean PLAYER3_TO_DROP_CARD = false;
+	
+	public static boolean DJUKA_MOD = false;
+	public static boolean VESELI_MOD = false;
 	
 	//KO IGRA
 	public static int ON_PLAY = 0;
